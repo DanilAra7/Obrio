@@ -71,8 +71,23 @@ what's unit-tested with mocks.
 docker build -t review-api . && docker run -p 8000:8000 review-api
 ```
 
-The same image runs unchanged on Cloud Run / Render / Heroku (`$PORT` honoured). Pass
+The same image runs unchanged on Cloud Run / Render / Heroku / Railway (`$PORT` honoured). Pass
 `GEMINI_API_KEY` as an env var to the container to enable the LLM path there too.
+
+### Deploying to Railway
+
+`railway.json` at the repo root points Railway at the Dockerfile explicitly, so no extra
+config is needed beyond connecting the repo:
+
+1. Push this repo to GitHub (see below).
+2. On [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub repo** → pick
+   this repo. Railway detects `railway.json`/`Dockerfile` automatically and builds it.
+3. Optional: in the service's **Variables** tab, add `GEMINI_API_KEY` to enable the LLM path.
+4. Railway assigns a public URL automatically (**Settings → Networking → Generate Domain**).
+   `/docs` on that URL is the same Swagger UI as local.
+
+No CLI required — this is the web-dashboard flow. (`railway up` from the `railway` CLI works
+too, if installed and logged in, and reads the same `railway.json`.)
 
 ---
 
