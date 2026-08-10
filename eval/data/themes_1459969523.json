@@ -1,0 +1,474 @@
+{
+  "taxonomy": [
+    {
+      "name": "Non-Inclusive Identity Options",
+      "description": "Users express frustration over rigid binary gender choices, lack of non-binary or custom pronoun settings, and heteronormative or body-shaming assumptions in readings."
+    },
+    {
+      "name": "Deceptive Subscriptions and Billing",
+      "description": "Users report being unexpectedly charged for recurring subscriptions, full annual fees, or hidden web charges immediately after signing up for trials or one-time reports."
+    },
+    {
+      "name": "Unhelpful Support and Refunds",
+      "description": "Users complain that customer service is unreachable, relies on automated bots, refuses valid refund requests, and closes support tickets without resolving issues."
+    },
+    {
+      "name": "Excessive Paywalls and Feature-Locking",
+      "description": "Users criticize the app for placing basic astrology data, birth charts, and previously free features behind expensive ongoing subscription fees."
+    },
+    {
+      "name": "Predatory Per-Minute Psychic Billing",
+      "description": "Users report that live psychic and advisor chats are overpriced and feature slow-responding readers or timers that quickly drain purchased credits."
+    },
+    {
+      "name": "Intrusive In-App Advertisements",
+      "description": "Users complain about constant pop-up ads and aggressive promotion of paid services that repeatedly interrupt basic app navigation and chart viewing."
+    },
+    {
+      "name": "Technical Glitches and Bugs",
+      "description": "Users experience app-breaking bugs including login failures, frozen loading screens, broken widgets, audio glitches during calls, and age-selection errors."
+    },
+    {
+      "name": "Recycled and Low-Quality Content",
+      "description": "Users highlight poorly written, generic, or outdated horoscopes that contain obvious typos, contradictory advice, or recycled text from previous months and years."
+    }
+  ],
+  "assignment": {
+    "6732871614": [
+      "Non-Inclusive Identity Options"
+    ],
+    "10724895815": [
+      "Deceptive Subscriptions and Billing",
+      "Technical Glitches and Bugs"
+    ],
+    "10745745062": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "7550731888": [
+      "Intrusive In-App Advertisements"
+    ],
+    "8741494470": [
+      "Technical Glitches and Bugs"
+    ],
+    "7547129421": [
+      "Technical Glitches and Bugs"
+    ],
+    "11567324993": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "11309860342": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "14288569623": [
+      "Technical Glitches and Bugs"
+    ],
+    "12097441238": [
+      "Unhelpful Support and Refunds",
+      "Technical Glitches and Bugs"
+    ],
+    "6855705684": [
+      "Intrusive In-App Advertisements"
+    ],
+    "11534016364": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "10832433655": [
+      "Recycled and Low-Quality Content"
+    ],
+    "6941619915": [
+      "Non-Inclusive Identity Options"
+    ],
+    "14150825254": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "12338461977": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "6084003559": [
+      "Recycled and Low-Quality Content"
+    ],
+    "9449328252": [
+      "Non-Inclusive Identity Options"
+    ],
+    "12616474807": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "11531987668": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "14151631956": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "4798717628": [
+      "Recycled and Low-Quality Content"
+    ],
+    "11889644785": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "11455320841": [
+      "Recycled and Low-Quality Content"
+    ],
+    "13839528993": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "12895500790": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "14155971402": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "9707466566": [
+      "Deceptive Subscriptions and Billing",
+      "Intrusive In-App Advertisements"
+    ],
+    "9900490763": [
+      "Intrusive In-App Advertisements"
+    ],
+    "11951237158": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "14145228754": [
+      "Excessive Paywalls and Feature-Locking",
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "6147313801": [
+      "Intrusive In-App Advertisements"
+    ],
+    "12662413604": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "12088937944": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "12742618920": [
+      "Recycled and Low-Quality Content"
+    ],
+    "14217246329": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "7480629840": [
+      "Non-Inclusive Identity Options"
+    ],
+    "10987603034": [
+      "Excessive Paywalls and Feature-Locking",
+      "Recycled and Low-Quality Content"
+    ],
+    "11778501799": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "8268427566": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds",
+      "Recycled and Low-Quality Content"
+    ],
+    "6118608677": [
+      "Non-Inclusive Identity Options"
+    ],
+    "8618841231": [
+      "Recycled and Low-Quality Content",
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "12128935792": [
+      "Recycled and Low-Quality Content"
+    ],
+    "14284892659": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "11975231543": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds",
+      "Technical Glitches and Bugs"
+    ],
+    "10545461808": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "8243664468": [],
+    "5374075296": [],
+    "14190158250": [
+      "Technical Glitches and Bugs"
+    ],
+    "11558153885": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "12425546530": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "12065084419": [
+      "Excessive Paywalls and Feature-Locking",
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "13662842459": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "10772121437": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "6942384343": [
+      "Recycled and Low-Quality Content"
+    ],
+    "13296102891": [
+      "Excessive Paywalls and Feature-Locking",
+      "Intrusive In-App Advertisements"
+    ],
+    "11959224480": [
+      "Deceptive Subscriptions and Billing",
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "10085591211": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds",
+      "Recycled and Low-Quality Content"
+    ],
+    "14165380312": [
+      "Technical Glitches and Bugs"
+    ],
+    "12825163983": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "14268611351": [
+      "Technical Glitches and Bugs"
+    ],
+    "14144198759": [],
+    "6468487974": [
+      "Non-Inclusive Identity Options"
+    ],
+    "12430189347": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "12481846751": [
+      "Technical Glitches and Bugs"
+    ],
+    "10514991091": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "12439445085": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "13224639951": [
+      "Technical Glitches and Bugs",
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "13665131421": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "10765562123": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "10670208225": [
+      "Technical Glitches and Bugs"
+    ],
+    "13372038470": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "14159682459": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "11863243929": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "13083503428": [
+      "Deceptive Subscriptions and Billing",
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "7815531270": [],
+    "14141804638": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "7442976997": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "12993175408": [],
+    "10480005089": [
+      "Recycled and Low-Quality Content"
+    ],
+    "4761806406": [
+      "Technical Glitches and Bugs"
+    ],
+    "8889922205": [],
+    "7685390341": [
+      "Intrusive In-App Advertisements"
+    ],
+    "14012721254": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "12418894798": [
+      "Deceptive Subscriptions and Billing",
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "10853403359": [
+      "Predatory Per-Minute Psychic Billing"
+    ],
+    "11422847227": [
+      "Excessive Paywalls and Feature-Locking",
+      "Intrusive In-App Advertisements"
+    ],
+    "14160535543": [
+      "Excessive Paywalls and Feature-Locking"
+    ],
+    "10554353137": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "14147885035": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "8513750329": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "11744264654": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "11647367428": [
+      "Unhelpful Support and Refunds",
+      "Predatory Per-Minute Psychic Billing",
+      "Recycled and Low-Quality Content"
+    ],
+    "11678926060": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "12888865299": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "5343426366": [
+      "Deceptive Subscriptions and Billing",
+      "Unhelpful Support and Refunds"
+    ],
+    "9345804916": [
+      "Technical Glitches and Bugs",
+      "Recycled and Low-Quality Content"
+    ],
+    "14151398649": [],
+    "11164615798": [
+      "Intrusive In-App Advertisements"
+    ],
+    "14202123733": [
+      "Deceptive Subscriptions and Billing"
+    ],
+    "7707646549": [
+      "Deceptive Subscriptions and Billing"
+    ]
+  },
+  "themes": [
+    {
+      "theme": "Deceptive Subscriptions and Billing",
+      "description": "Users report being unexpectedly charged for recurring subscriptions, full annual fees, or hidden web charges immediately after signing up for trials or one-time reports.",
+      "review_count": 35,
+      "share_of_corpus": 34.7,
+      "recommendation": "Clearly disclose recurring charges, billing intervals, and subscription conversion terms before users confirm trial or low-cost report purchases.",
+      "cited_review_ids": [
+        "10745745062",
+        "11567324993",
+        "12895500790",
+        "11778501799"
+      ],
+      "citations_valid": true
+    },
+    {
+      "theme": "Excessive Paywalls and Feature-Locking",
+      "description": "Users criticize the app for placing basic astrology data, birth charts, and previously free features behind expensive ongoing subscription fees.",
+      "review_count": 18,
+      "share_of_corpus": 17.8,
+      "recommendation": "Provide free or standard subscribers access to essential astrological features like birth charts and daily insights without requiring added payments for every detail.",
+      "cited_review_ids": [
+        "11534016364",
+        "11951237158",
+        "12662413604",
+        "14217246329"
+      ],
+      "citations_valid": true
+    },
+    {
+      "theme": "Unhelpful Support and Refunds",
+      "description": "Users complain that customer service is unreachable, relies on automated bots, refuses valid refund requests, and closes support tickets without resolving issues.",
+      "review_count": 16,
+      "share_of_corpus": 15.8,
+      "recommendation": "Establish a responsive support team that actively resolves cancellation issues and billing disputes rather than relying on auto-closing automated ticket systems.",
+      "cited_review_ids": [
+        "11567324993",
+        "12097441238",
+        "14284892659",
+        "7442976997"
+      ],
+      "citations_valid": true
+    },
+    {
+      "theme": "Predatory Per-Minute Psychic Billing",
+      "description": "Users report that live psychic and advisor chats are overpriced and feature slow-responding readers or timers that quickly drain purchased credits.",
+      "review_count": 15,
+      "share_of_corpus": 14.9,
+      "recommendation": "Offer flat-rate session pricing or credit caps for psychic chats so users are not billed excessively during delayed response times and introductory greetings.",
+      "cited_review_ids": [
+        "11531987668",
+        "14151631956",
+        "12825163983",
+        "10765562123"
+      ],
+      "citations_valid": true
+    },
+    {
+      "theme": "Technical Glitches and Bugs",
+      "description": "Users experience app-breaking bugs including login failures, frozen loading screens, broken widgets, audio glitches during calls, and age-selection errors.",
+      "review_count": 14,
+      "share_of_corpus": 13.9,
+      "recommendation": "Resolve persistent app loading errors, fix broken home screen widgets, and correct accurate natal chart calculations to ensure core features function properly.",
+      "cited_review_ids": [
+        "7547129421",
+        "14288569623",
+        "14268611351",
+        "10670208225"
+      ],
+      "citations_valid": true
+    },
+    {
+      "theme": "Recycled and Low-Quality Content",
+      "description": "Users highlight poorly written, generic, or outdated horoscopes that contain obvious typos, contradictory advice, or recycled text from previous months and years.",
+      "review_count": 14,
+      "share_of_corpus": 13.9,
+      "recommendation": "Audit and refresh horoscope content regularly to eliminate outdated dates, typos, and repeated daily readings.",
+      "cited_review_ids": [
+        "4798717628",
+        "11455320841",
+        "8618841231",
+        "6942384343"
+      ],
+      "citations_valid": true
+    },
+    {
+      "theme": "Intrusive In-App Advertisements",
+      "description": "Users complain about constant pop-up ads and aggressive promotion of paid services that repeatedly interrupt basic app navigation and chart viewing.",
+      "review_count": 9,
+      "share_of_corpus": 8.9,
+      "recommendation": "Reduce the frequency of repetitive pop-up ads and allow users to customize push notifications to prevent app navigation from feeling unplayable.",
+      "cited_review_ids": [
+        "7550731888",
+        "6855705684",
+        "6147313801",
+        "7685390341"
+      ],
+      "citations_valid": true
+    },
+    {
+      "theme": "Non-Inclusive Identity Options",
+      "description": "Users express frustration over rigid binary gender choices, lack of non-binary or custom pronoun settings, and heteronormative or body-shaming assumptions in readings.",
+      "review_count": 6,
+      "share_of_corpus": 5.9,
+      "recommendation": "Expand onboarding profile settings to include non-binary/custom gender options, neutral pronouns, and relationship preferences to prevent misgendering and identity stereotyping.",
+      "cited_review_ids": [
+        "6732871614",
+        "7480629840",
+        "6118608677",
+        "6468487974"
+      ],
+      "citations_valid": true
+    }
+  ]
+}

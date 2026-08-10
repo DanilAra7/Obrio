@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+sample_report.json
+.env
+/data/
+.DS_Store
+.claude/
+eval/data/embeddings_*.json
+eval/data/llm_cache.json

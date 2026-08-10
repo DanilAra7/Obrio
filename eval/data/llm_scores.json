@@ -1,0 +1,1052 @@
+{
+  "14265267137": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Enthusiastic praise for advice and explanations without complaints.",
+    "source": "gemini"
+  },
+  "6732871614": {
+    "score": 0.1,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Likes app overall but complains about gender selection and default pronouns.",
+    "source": "gemini"
+  },
+  "10724895815": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Angry review alleging hidden recurring charges and unhelpful login system.",
+    "source": "gemini"
+  },
+  "10745745062": {
+    "score": -0.3,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Appreciates refund from support but warns about sneaky recurring subscription charges.",
+    "source": "gemini"
+  },
+  "12961141455": {
+    "score": 0.7,
+    "has_complaint": true,
+    "confidence": 0.85,
+    "reason": "Praises readings highly but expresses concern regarding overall affordability.",
+    "source": "gemini"
+  },
+  "7550731888": {
+    "score": 0.3,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Favorite astrology app, but complains heavily about excessive ads and notifications.",
+    "source": "gemini"
+  },
+  "7615050843": {
+    "score": 0.95,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Enthusiastic praise for free features and app quality without any complaints.",
+    "source": "gemini"
+  },
+  "8741494470": {
+    "score": 0.1,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Appreciates developer response, but disappointed by age restriction under 13.",
+    "source": "gemini"
+  },
+  "7547129421": {
+    "score": -0.4,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Likes accuracy, but frustrated by persistent connection bugs and broken widget.",
+    "source": "gemini"
+  },
+  "11567324993": {
+    "score": -0.95,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Charged yearly fee immediately during trial and ignored by support team.",
+    "source": "gemini"
+  },
+  "11309860342": {
+    "score": -0.1,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Liked initial content, but finds it overpriced with limited ongoing features.",
+    "source": "gemini"
+  },
+  "14263325046": {
+    "score": 0.5,
+    "has_complaint": false,
+    "confidence": 0.8,
+    "reason": "Short simple positive review with no complaints mentioned.",
+    "source": "gemini"
+  },
+  "14288569623": {
+    "score": 0.2,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Likes psychic readers but complains about audio bugs and chat timeouts.",
+    "source": "gemini"
+  },
+  "12097441238": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Criticizes broken palmistry feature, expired email links, and unhelpful support.",
+    "source": "gemini"
+  },
+  "6855705684": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Warns users against downloading due to intrusive and excessive ad frequency.",
+    "source": "gemini"
+  },
+  "14099571287": {
+    "score": 0.95,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Deeply grateful review praising the developers and app's impact.",
+    "source": "gemini"
+  },
+  "11534016364": {
+    "score": -0.75,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Disappointed by paywalls, locked content, and missing chart details.",
+    "source": "gemini"
+  },
+  "14246061896": {
+    "score": 0.75,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Enjoys the app overall, though not all content feels relevant.",
+    "source": "gemini"
+  },
+  "13694471274": {
+    "score": 0.5,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Mostly accurate reading, but points out an age calculation error.",
+    "source": "gemini"
+  },
+  "14141121444": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Enthusiastic user enjoying early results with no complaints mentioned.",
+    "source": "gemini"
+  },
+  "10832433655": {
+    "score": 0.35,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Likes the app overall, but complains about conflicting guidance.",
+    "source": "gemini"
+  },
+  "6941619915": {
+    "score": 0.2,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Finds entertainment value, but complains about binary gender options.",
+    "source": "gemini"
+  },
+  "5707060391": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Highly recommends the app and appreciates the fair ad model.",
+    "source": "gemini"
+  },
+  "14150825254": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Frustrated by unauthorized recurring charges and unresponsive customer support.",
+    "source": "gemini"
+  },
+  "12338461977": {
+    "score": -0.85,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Angry about misleading free trial and paywalled core features.",
+    "source": "gemini"
+  },
+  "14149210259": {
+    "score": 0.85,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Short positive review praising the reading and feeling better.",
+    "source": "gemini"
+  },
+  "6084003559": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Warns that the app is a scam giving generic, harmful advice.",
+    "source": "gemini"
+  },
+  "9449328252": {
+    "score": -0.2,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Criticizes app for promoting diet culture and toxic body image.",
+    "source": "gemini"
+  },
+  "12616474807": {
+    "score": -0.95,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Furious about premature subscription charges and refused refund requests.",
+    "source": "gemini"
+  },
+  "14152751527": {
+    "score": 0.5,
+    "has_complaint": true,
+    "confidence": 0.85,
+    "reason": "Positive initial experience, though wishes for more tarot chat time.",
+    "source": "gemini"
+  },
+  "11531987668": {
+    "score": -0.1,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Likes accuracy but complains about expensive and slow paid responses.",
+    "source": "gemini"
+  },
+  "14144933505": {
+    "score": 0.2,
+    "has_complaint": false,
+    "confidence": 0.6,
+    "reason": "Too short to assess fully, mild praise in title.",
+    "source": "gemini"
+  },
+  "14151631956": {
+    "score": 0.3,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Loves app overall but complains about high prices and slow responses.",
+    "source": "gemini"
+  },
+  "4798717628": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Complains about recycled outdated content and plans to cancel subscription.",
+    "source": "gemini"
+  },
+  "11889644785": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Complains about misleading sign-up fees, missing reports, and microtransactions.",
+    "source": "gemini"
+  },
+  "11455320841": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Disappointed by recycled horoscopes, outdated years, and unhelpful support response.",
+    "source": "gemini"
+  },
+  "13839528993": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated that basic features are now locked behind paywalls.",
+    "source": "gemini"
+  },
+  "14286416730": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Enthusiastically praises app accuracy and highly recommends it.",
+    "source": "gemini"
+  },
+  "12895500790": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Angry about fraudulent charges, lack of support, and scam tactics.",
+    "source": "gemini"
+  },
+  "14222623010": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Happy user finds the app accurate and encouraging.",
+    "source": "gemini"
+  },
+  "12443413847": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Very pleased with reading accuracy and helpful guidance.",
+    "source": "gemini"
+  },
+  "14190331998": {
+    "score": 0.4,
+    "has_complaint": false,
+    "confidence": 0.85,
+    "reason": "Mildly positive feedback regarding interest and accuracy.",
+    "source": "gemini"
+  },
+  "14155971402": {
+    "score": 0.5,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Overall good app but complains about fast reading timer.",
+    "source": "gemini"
+  },
+  "14145102692": {
+    "score": 0.7,
+    "has_complaint": false,
+    "confidence": 0.9,
+    "reason": "Appreciates guidance and reassurance provided by the app.",
+    "source": "gemini"
+  },
+  "9707466566": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated by unfulfilled lifetime membership perks, ads, and scammers.",
+    "source": "gemini"
+  },
+  "9900490763": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated by ads, inaccurate readings, pending posts, and missing features.",
+    "source": "gemini"
+  },
+  "11951237158": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Angry that nearly all features are locked behind a paywall.",
+    "source": "gemini"
+  },
+  "14145228754": {
+    "score": -0.5,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Complains briefly about having to pay for every feature.",
+    "source": "gemini"
+  },
+  "6147313801": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated by intrusive, repeatedly repeating ads ruining a previously good app.",
+    "source": "gemini"
+  },
+  "12662413604": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Disappointed that previously free features now require a paid subscription.",
+    "source": "gemini"
+  },
+  "6883520996": {
+    "score": 0.4,
+    "has_complaint": true,
+    "confidence": 0.92,
+    "reason": "Praises accuracy but expresses minor frustration over paywalled content.",
+    "source": "gemini"
+  },
+  "13691744500": {
+    "score": 1.0,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Extremely enthusiastic praise for the accuracy and experience of palm reading.",
+    "source": "gemini"
+  },
+  "12088937944": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Accuses the app of being a scam and misleading users.",
+    "source": "gemini"
+  },
+  "14141443052": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Simple positive praise regarding spiritual insights offered by the app.",
+    "source": "gemini"
+  },
+  "12742618920": {
+    "score": 0.2,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Finds app cool for beginners but criticizes outdated and basic astrology.",
+    "source": "gemini"
+  },
+  "14217246329": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Annoyed by new paywalls on basic features, leading to deletion.",
+    "source": "gemini"
+  },
+  "14304012125": {
+    "score": 0.5,
+    "has_complaint": false,
+    "confidence": 0.9,
+    "reason": "Positive evaluation noting it is pretty ok and showed their soulmate.",
+    "source": "gemini"
+  },
+  "14007386966": {
+    "score": 1.0,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Glowing praise detailing total enjoyment, accuracy, and strong recommendation.",
+    "source": "gemini"
+  },
+  "14144714862": {
+    "score": 0.6,
+    "has_complaint": false,
+    "confidence": 0.9,
+    "reason": "Mildly positive comment expressing satisfaction with getting answers to superstitions.",
+    "source": "gemini"
+  },
+  "14137943480": {
+    "score": 0.2,
+    "has_complaint": false,
+    "confidence": 0.7,
+    "reason": "Short cautious positive comment from a new user starting a trial.",
+    "source": "gemini"
+  },
+  "14216073823": {
+    "score": 0.95,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Praises the app highly as insightful and the best available.",
+    "source": "gemini"
+  },
+  "7480629840": {
+    "score": 0.4,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Loves the app overall but requests asexual and non-stereotypical options.",
+    "source": "gemini"
+  },
+  "10987603034": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Angry about expensive paywalls, uninstalled app, and calls it a scam.",
+    "source": "gemini"
+  },
+  "14137878451": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.9,
+    "reason": "Short positive review expressing great satisfaction with insights.",
+    "source": "gemini"
+  },
+  "14249161981": {
+    "score": 0.85,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Compliments helpful advisors and overall quality of assistance.",
+    "source": "gemini"
+  },
+  "11778501799": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Furious about unauthorized subscription charge, refused refund, and unethical practices.",
+    "source": "gemini"
+  },
+  "8268427566": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Upset about unexpected subscription charge and unhelpful customer support responses.",
+    "source": "gemini"
+  },
+  "6118608677": {
+    "score": 0.1,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Likes accuracy but complains about sexist tips and non-inclusive gender choices.",
+    "source": "gemini"
+  },
+  "8618841231": {
+    "score": -0.3,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Disappointed by repeated yearly horoscope readings and expensive subscription costs.",
+    "source": "gemini"
+  },
+  "14141569007": {
+    "score": 0.6,
+    "has_complaint": false,
+    "confidence": 0.85,
+    "reason": "Brief positive feedback expressing that the app is interesting and fun.",
+    "source": "gemini"
+  },
+  "12128935792": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Extremely angry, calling app con artists and providing generic, basic readings.",
+    "source": "gemini"
+  },
+  "14284892659": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated by charge after canceling trial and unhelpful customer support.",
+    "source": "gemini"
+  },
+  "11975231543": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Upset over deceptive weekly billing, technical errors, and bot support.",
+    "source": "gemini"
+  },
+  "14300588175": {
+    "score": 0.7,
+    "has_complaint": false,
+    "confidence": 0.9,
+    "reason": "Positive review enjoying the interesting future information provided.",
+    "source": "gemini"
+  },
+  "10545461808": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Complains about persistent unauthorized charges and confusing cancellation procedure.",
+    "source": "gemini"
+  },
+  "8243664468": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Complains app is too basic, expensive, and causes confusion.",
+    "source": "gemini"
+  },
+  "5374075296": {
+    "score": 0.4,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Likes app overall but complains about price and missing feature.",
+    "source": "gemini"
+  },
+  "14186950323": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Highly praises the app for accurate results and guidance.",
+    "source": "gemini"
+  },
+  "14190158250": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Unable to enter birthday due to app error or restriction.",
+    "source": "gemini"
+  },
+  "11558153885": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Disappointed by unexpected extra fees after paying subscription fee.",
+    "source": "gemini"
+  },
+  "12425546530": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.99,
+    "reason": "Angry about unauthorized charges and inability to cancel subscription.",
+    "source": "gemini"
+  },
+  "14219236364": {
+    "score": 0.0,
+    "has_complaint": false,
+    "confidence": 0.3,
+    "reason": "Too little text and signal to determine user sentiment.",
+    "source": "gemini"
+  },
+  "14144476810": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.9,
+    "reason": "Praises the app with brief divine alignment compliment.",
+    "source": "gemini"
+  },
+  "12065084419": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Complains about high costs, locked features, and useless free readings.",
+    "source": "gemini"
+  },
+  "14153599941": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Enjoys app insights on soul mates and compatibility behaviors.",
+    "source": "gemini"
+  },
+  "14155620984": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Enthusiastic praise for self-insights learned through the app.",
+    "source": "gemini"
+  },
+  "14140875858": {
+    "score": 0.85,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Excited about the app's high accuracy and personal vibe.",
+    "source": "gemini"
+  },
+  "13662842459": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.99,
+    "reason": "Accuses app of scamming users with deceptive recurring charges.",
+    "source": "gemini"
+  },
+  "10772121437": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.99,
+    "reason": "Angry over fraudulent charges forcing debit card cancellation.",
+    "source": "gemini"
+  },
+  "13695344018": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Glowingly praises detailed readings, clean layout, and overall value.",
+    "source": "gemini"
+  },
+  "6942384343": {
+    "score": 0.3,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Praises accuracy but complains about typos and nonsensical sentences.",
+    "source": "gemini"
+  },
+  "13296102891": {
+    "score": 0.5,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Enthusiastic praise for features balanced by complaints about ads.",
+    "source": "gemini"
+  },
+  "11959224480": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Angry about early subscription charge and high costs for features.",
+    "source": "gemini"
+  },
+  "10085591211": {
+    "score": -0.95,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Denied refund after incorrect billing charge and called app worthless.",
+    "source": "gemini"
+  },
+  "14149420227": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Short positive review praising the app as informative and inspiring.",
+    "source": "gemini"
+  },
+  "14165380312": {
+    "score": -0.3,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Complains about age requirement discrepancy blocking app access.",
+    "source": "gemini"
+  },
+  "12825163983": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Warns users against predatory pay-per-minute charges and unhelpful psychics.",
+    "source": "gemini"
+  },
+  "14186731040": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Compliments app for personal growth and alignment benefits.",
+    "source": "gemini"
+  },
+  "14268611351": {
+    "score": 0.3,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Recommends a specific psychic despite natal chart bug and support.",
+    "source": "gemini"
+  },
+  "14144198759": {
+    "score": -0.4,
+    "has_complaint": true,
+    "confidence": 0.85,
+    "reason": "Complains about slow responses and lack of question understanding.",
+    "source": "gemini"
+  },
+  "6468487974": {
+    "score": -0.2,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Blocked from app due to missing gender options and requests.",
+    "source": "gemini"
+  },
+  "12430189347": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated that previously free birth chart features now require subscription.",
+    "source": "gemini"
+  },
+  "12481846751": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Reports date entry bug and overly invasive personal questions.",
+    "source": "gemini"
+  },
+  "10514991091": {
+    "score": -0.3,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Disappointed that free compatibility details are now entirely paywalled.",
+    "source": "gemini"
+  },
+  "12439445085": {
+    "score": 0.2,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Praises psychic chat quality but strongly complains about high prices.",
+    "source": "gemini"
+  },
+  "13224639951": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Complains about glitches, inaccurate wait times, and rude psychics.",
+    "source": "gemini"
+  },
+  "13665131421": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Reports missing feature, hidden charges, and calls app a scam.",
+    "source": "gemini"
+  },
+  "14155367932": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Enthusiastic praise for a reader with no negative feedback.",
+    "source": "gemini"
+  },
+  "10765562123": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Praises compatibility feature but criticizes expensive, misleading tarot readings.",
+    "source": "gemini"
+  },
+  "10670208225": {
+    "score": 0.3,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Loves accuracy and content but reports recurring connection errors.",
+    "source": "gemini"
+  },
+  "13372038470": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.99,
+    "reason": "Accuses app of scamming and continuous unauthorized billing charges.",
+    "source": "gemini"
+  },
+  "14159682459": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Liked app features initially but furious over unauthorized card charges.",
+    "source": "gemini"
+  },
+  "11863243929": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated with expensive pricing, non-rolling credits, and low value.",
+    "source": "gemini"
+  },
+  "13083503428": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Extremely disappointed, calls app a manipulative scam with technical issues.",
+    "source": "gemini"
+  },
+  "7815531270": {
+    "score": 0.3,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Fair review praising support while noting non-intuitive cancellation process.",
+    "source": "gemini"
+  },
+  "13654741811": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Enthusiastically praises accuracy of readings and highly recommends app.",
+    "source": "gemini"
+  },
+  "14155371398": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Short, extremely positive rating with no complaints mentioned.",
+    "source": "gemini"
+  },
+  "14130509723": {
+    "score": 0.85,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Detailed praise about feeling grounded and affirmed by palm reading.",
+    "source": "gemini"
+  },
+  "14141804638": {
+    "score": -0.95,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Warns against fraud and recurring unauthorized monthly charges.",
+    "source": "gemini"
+  },
+  "7442976997": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.99,
+    "reason": "Angry review alleging billing fraud, hidden terms, and ignored support emails.",
+    "source": "gemini"
+  },
+  "12993175408": {
+    "score": 0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Highly enthusiastic praise but complains about the steep monthly subscription price.",
+    "source": "gemini"
+  },
+  "10480005089": {
+    "score": -0.5,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Disappointed that content feels repetitive, inaccurate, and no longer helpful.",
+    "source": "gemini"
+  },
+  "4761806406": {
+    "score": -0.5,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated by zodiac date categorization error and paywalled features.",
+    "source": "gemini"
+  },
+  "8889922205": {
+    "score": -0.3,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Loves accuracy but criticizes lack of diversity in style recommendations.",
+    "source": "gemini"
+  },
+  "7685390341": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Frustrated by excessive ads making the app virtually impossible to use.",
+    "source": "gemini"
+  },
+  "11229606935": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Glowing and poetic praise for personalized insights, accuracy, and community.",
+    "source": "gemini"
+  },
+  "14012721254": {
+    "score": -0.5,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Disappointed with mediocre readings and unsupportive psychic chat responses.",
+    "source": "gemini"
+  },
+  "12418894798": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.99,
+    "reason": "Extremely angry review calling the app a misleading scam and money trap.",
+    "source": "gemini"
+  },
+  "10853403359": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Unhappy with inaccurate reading, wasted credits, and felt insulted.",
+    "source": "gemini"
+  },
+  "11422847227": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Unhappy about formerly free essential features now locked behind paywalls.",
+    "source": "gemini"
+  },
+  "14160535543": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Upset that ad-supported free readings were removed as a money grab.",
+    "source": "gemini"
+  },
+  "10554353137": {
+    "score": -0.6,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Frustrated by recurring unauthorized charges after attempting to cancel subscription.",
+    "source": "gemini"
+  },
+  "13246803635": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Pleasantly surprised and very satisfied with the accuracy of the reading.",
+    "source": "gemini"
+  },
+  "14147885035": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Angry about uncontactable customer support and inability to cancel subscription.",
+    "source": "gemini"
+  },
+  "8513750329": {
+    "score": -0.9,
+    "has_complaint": true,
+    "confidence": 0.99,
+    "reason": "Furious about deceptive free trial that immediately charged money without warning.",
+    "source": "gemini"
+  },
+  "14147965981": {
+    "score": 0.8,
+    "has_complaint": false,
+    "confidence": 0.95,
+    "reason": "Praises the sketch and found the description accurate.",
+    "source": "gemini"
+  },
+  "6844115243": {
+    "score": 0.95,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Extremely pleased with free accurate horoscopes and features.",
+    "source": "gemini"
+  },
+  "11744264654": {
+    "score": 0.4,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Appreciates helpful support despite initial unauthorized subscription charge.",
+    "source": "gemini"
+  },
+  "11647367428": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Complains about repetitive content, absent advisors, and high costs.",
+    "source": "gemini"
+  },
+  "11678926060": {
+    "score": -0.7,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Upset about unexpected and excessive credit card charges.",
+    "source": "gemini"
+  },
+  "12888865299": {
+    "score": -0.85,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Feels scammed after paying for unavailable app features.",
+    "source": "gemini"
+  },
+  "5343426366": {
+    "score": -0.95,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Warns against buying due to unhelpful support and unexpected full charge.",
+    "source": "gemini"
+  },
+  "9345804916": {
+    "score": 0.2,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Loves the app overall but reports glitches and age restrictions.",
+    "source": "gemini"
+  },
+  "14151398649": {
+    "score": 0.2,
+    "has_complaint": true,
+    "confidence": 0.8,
+    "reason": "Found content interesting but doubts if money was well spent.",
+    "source": "gemini"
+  },
+  "11164615798": {
+    "score": -0.4,
+    "has_complaint": true,
+    "confidence": 0.95,
+    "reason": "Loves app features but finds ad frequency makes it unusable.",
+    "source": "gemini"
+  },
+  "14144192655": {
+    "score": 0.9,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Expresses strong love for guidance provided by the app.",
+    "source": "gemini"
+  },
+  "14077349843": {
+    "score": 0.6,
+    "has_complaint": false,
+    "confidence": 0.85,
+    "reason": "Grateful for hope given by reading and liked the sketch.",
+    "source": "gemini"
+  },
+  "14202123733": {
+    "score": -0.8,
+    "has_complaint": true,
+    "confidence": 0.9,
+    "reason": "Warns that charges continue even after canceling account.",
+    "source": "gemini"
+  },
+  "7707646549": {
+    "score": -1.0,
+    "has_complaint": true,
+    "confidence": 0.98,
+    "reason": "Angry about unauthorized weekly charges for unreceived premium features.",
+    "source": "gemini"
+  },
+  "13531734575": {
+    "score": 0.95,
+    "has_complaint": false,
+    "confidence": 0.98,
+    "reason": "Loves the app for providing peace, clarity, and live support.",
+    "source": "gemini"
+  }
+}

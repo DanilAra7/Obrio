@@ -1,0 +1,1351 @@
+{
+  "14265267137": {
+    "score": 0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "original_score": 0.8,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T16:09:53+00:00",
+    "has_complaint": false
+  },
+  "6732871614": {
+    "score": -0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T17:05:42+00:00",
+    "original_score": -0.5,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:10:40+00:00",
+    "has_complaint": true
+  },
+  "10724895815": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T17:05:51+00:00",
+    "original_score": -1.0,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:10:43+00:00",
+    "has_complaint": true
+  },
+  "10745745062": {
+    "score": -0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T17:06:37+00:00",
+    "original_score": -0.5,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:10:46+00:00",
+    "has_complaint": true
+  },
+  "12961141455": {
+    "score": 0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T17:06:58+00:00",
+    "original_score": 0.5,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:10:51+00:00",
+    "has_complaint": false
+  },
+  "7550731888": {
+    "score": -0.5,
+    "note": "mixed: loves app, real complaint about ad frequency",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "original_score": 0.2,
+    "reviewed_by_human": true,
+    "human_agreed": false,
+    "reviewed_at": "2026-08-10T17:11:13+00:00",
+    "has_complaint": true
+  },
+  "7615050843": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "original_score": 1.0,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:11:18+00:00",
+    "has_complaint": false
+  },
+  "8741494470": {
+    "score": -0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "original_score": -0.2,
+    "reviewed_by_human": true,
+    "human_agreed": false,
+    "reviewed_at": "2026-08-10T17:12:11+00:00",
+    "has_complaint": true
+  },
+  "7547129421": {
+    "score": -0.3,
+    "note": "mixed: praises accuracy, recurring bugs",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "original_score": -0.3,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:12:19+00:00",
+    "has_complaint": true
+  },
+  "11567324993": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "original_score": -0.8,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:12:21+00:00",
+    "has_complaint": true
+  },
+  "11309860342": {
+    "score": -0.2,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "original_score": -0.2,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:12:41+00:00",
+    "has_complaint": true
+  },
+  "14263325046": {
+    "score": 0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "original_score": 0.5,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:12:44+00:00",
+    "has_complaint": false
+  },
+  "14288569623": {
+    "score": 0.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": 0.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:22:16+00:00"
+  },
+  "12097441238": {
+    "score": -0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.9,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:22:17+00:00"
+  },
+  "6855705684": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.7,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:22:18+00:00"
+  },
+  "14099571287": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.9,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:22:37+00:00"
+  },
+  "11534016364": {
+    "score": -0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.5,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:22:40+00:00"
+  },
+  "14246061896": {
+    "score": 0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.7,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:11+00:00"
+  },
+  "13694471274": {
+    "score": 0.3,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.3,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:28+00:00"
+  },
+  "14141121444": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.9,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:34+00:00"
+  },
+  "10832433655": {
+    "score": 0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": 0.6,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:42+00:00"
+  },
+  "6941619915": {
+    "score": -0.8,
+    "note": "SARCASM — mocking tone, reads positive on surface words",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.8,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:45+00:00"
+  },
+  "5707060391": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 1.0,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:47+00:00"
+  },
+  "14150825254": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -1.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:51+00:00"
+  },
+  "12338461977": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -1.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:52+00:00"
+  },
+  "14149210259": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.9,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:54+00:00"
+  },
+  "6084003559": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -1.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:55+00:00"
+  },
+  "9449328252": {
+    "score": -0.5,
+    "note": "praise in title, update body is a complaint",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.5,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:23:59+00:00"
+  },
+  "12616474807": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -1.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:00+00:00"
+  },
+  "14152751527": {
+    "score": 0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.6,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:11+00:00"
+  },
+  "11531987668": {
+    "score": 0.2,
+    "note": "mixed: accurate + good free tier, IAP nuisance",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": 0.2,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:13+00:00"
+  },
+  "14144933505": {
+    "score": 0.3,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.3,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:15+00:00"
+  },
+  "14151631956": {
+    "score": 0.0,
+    "note": "mixed: 'absolutely love' vs price complaint — cancels out",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": 0.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:17+00:00"
+  },
+  "4798717628": {
+    "score": -0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.6,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:18+00:00"
+  },
+  "11889644785": {
+    "score": -0.4,
+    "note": "mixed: raised rating for support, still feels tricked",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.4,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:19+00:00"
+  },
+  "11455320841": {
+    "score": -0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.5,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:19+00:00"
+  },
+  "13839528993": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.7,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:20+00:00"
+  },
+  "14286416730": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.9,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:21+00:00"
+  },
+  "12895500790": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -1.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:22+00:00"
+  },
+  "14222623010": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.9,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:23+00:00"
+  },
+  "12443413847": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.9,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:23+00:00"
+  },
+  "14190331998": {
+    "score": 0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.6,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:24+00:00"
+  },
+  "14155971402": {
+    "score": 0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": 0.5,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:25+00:00"
+  },
+  "14145102692": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.9,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:26+00:00"
+  },
+  "9707466566": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -1.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:27+00:00"
+  },
+  "9900490763": {
+    "score": -0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.6,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:27+00:00"
+  },
+  "11951237158": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.8,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:28+00:00"
+  },
+  "14145228754": {
+    "score": -0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.6,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:29+00:00"
+  },
+  "6147313801": {
+    "score": -0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.6,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:30+00:00"
+  },
+  "12662413604": {
+    "score": -0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.5,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:31+00:00"
+  },
+  "6883520996": {
+    "score": 0.8,
+    "note": "positive about app; body contains dark unrelated content",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.8,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:32+00:00"
+  },
+  "13691744500": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 1.0,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:33+00:00"
+  },
+  "12088937944": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -1.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:33+00:00"
+  },
+  "14141443052": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.9,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:35+00:00"
+  },
+  "12742618920": {
+    "score": -0.1,
+    "note": "lukewarm verdict: fine for beginners, nothing new for experts",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.1,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:41+00:00"
+  },
+  "14217246329": {
+    "score": -0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -0.9,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:42+00:00"
+  },
+  "14304012125": {
+    "score": 0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.5,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:43+00:00"
+  },
+  "14007386966": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 1.0,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:44+00:00"
+  },
+  "14144714862": {
+    "score": 0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.7,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:45+00:00"
+  },
+  "14137943480": {
+    "score": 0.4,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 0.4,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:45+00:00"
+  },
+  "14216073823": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false,
+    "original_score": 1.0,
+    "original_has_complaint": false,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:46+00:00"
+  },
+  "7480629840": {
+    "score": 0.0,
+    "note": "mixed: loves app, real inclusivity complaint",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": 0.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:46+00:00"
+  },
+  "10987603034": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true,
+    "original_score": -1.0,
+    "original_has_complaint": true,
+    "reviewed_by_human": true,
+    "human_agreed": true,
+    "reviewed_at": "2026-08-10T17:24:47+00:00"
+  },
+  "14137878451": {
+    "score": 0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14249161981": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "11778501799": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "8268427566": {
+    "score": -0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "6118608677": {
+    "score": -0.2,
+    "note": "mixed: accurate but sexist/not inclusive",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "8618841231": {
+    "score": -0.4,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14141569007": {
+    "score": 0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "12128935792": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14284892659": {
+    "score": -0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11975231543": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14300588175": {
+    "score": 0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "10545461808": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "8243664468": {
+    "score": -0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "5374075296": {
+    "score": 0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14186950323": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14190158250": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11558153885": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "12425546530": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14219236364": {
+    "score": 0.0,
+    "note": "no sentiment signal — confused user asking for help",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14144476810": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "12065084419": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14153599941": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14155620984": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14140875858": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "13662842459": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "10772121437": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13695344018": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "6942384343": {
+    "score": 0.3,
+    "note": "positive with a concrete quality complaint (typos)",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13296102891": {
+    "score": 0.4,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11959224480": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "10085591211": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14149420227": {
+    "score": 0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14165380312": {
+    "score": -0.3,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "12825163983": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14186731040": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14268611351": {
+    "score": 0.0,
+    "note": "positive title, substantive unresolved bug in body",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14144198759": {
+    "score": -0.3,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "6468487974": {
+    "score": -0.2,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "12430189347": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "12481846751": {
+    "score": -0.5,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "10514991091": {
+    "score": 0.2,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "12439445085": {
+    "score": 0.0,
+    "note": "mixed: psychic great, price astronomical",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13224639951": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13665131421": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14155367932": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "10765562123": {
+    "score": -0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "10670208225": {
+    "score": 0.3,
+    "note": "mixed: loves app, intermittent failures",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13372038470": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14159682459": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11863243929": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13083503428": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "7815531270": {
+    "score": 0.0,
+    "note": "deliberately balanced 3-star: pros and cons both stated",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13654741811": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14155371398": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14130509723": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14141804638": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "7442976997": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "12993175408": {
+    "score": 0.6,
+    "note": "enthusiastic despite explicit price complaint",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "10480005089": {
+    "score": -0.2,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "4761806406": {
+    "score": -0.4,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "8889922205": {
+    "score": 0.0,
+    "note": "loves app, real complaint about non-inclusive style advice",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "7685390341": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11229606935": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14012721254": {
+    "score": 0.0,
+    "note": "ambivalent: quit before, back now, hoping",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "12418894798": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "10853403359": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11422847227": {
+    "score": -0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14160535543": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "10554353137": {
+    "score": -0.6,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13246803635": {
+    "score": 0.8,
+    "note": "starts skeptical, ends clearly pleased",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14147885035": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "8513750329": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14147965981": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "6844115243": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "11744264654": {
+    "score": 0.7,
+    "note": "BURIED LEDE — starts as billing complaint, ends praising support",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11647367428": {
+    "score": -0.8,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11678926060": {
+    "score": -0.7,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "12888865299": {
+    "score": -0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "5343426366": {
+    "score": -0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "9345804916": {
+    "score": 0.2,
+    "note": "loves app, disappointed by one missing feature",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14151398649": {
+    "score": 0.2,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "11164615798": {
+    "score": -0.2,
+    "note": "app praised but verdict is 'unusable' due to ads",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "14144192655": {
+    "score": 0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14077349843": {
+    "score": 0.4,
+    "note": "mostly personal rambling; mild thanks + liked the sketch",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  },
+  "14202123733": {
+    "score": -0.9,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "7707646549": {
+    "score": -1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": true
+  },
+  "13531734575": {
+    "score": 1.0,
+    "note": "",
+    "labeled_at": "2026-08-10T16:04:50+00:00",
+    "labeled_by": "claude",
+    "has_complaint": false
+  }
+}
