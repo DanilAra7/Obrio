@@ -221,6 +221,40 @@ complaints) and "Predatory Per-Minute Psychic Billing" (this app's specific mone
 written for them. That's the concrete case for the LLM path over a fixed checklist: it finds
 what's actually in the data instead of what was anticipated in advance.
 
+**Experimental alternative — embeddings + clustering (`eval/cluster_llm.py`, prototype, not
+wired into `app/`)**: the one-shot discovery step above only ever reads a *sample* (≤60) of the
+complaint corpus before proposing themes, which on Nebula's 101-review corpus left 7 reviews
+matched to no theme at all — nothing generated a category their specific complaint would fit.
+The alternative processes every review before any LLM judgment happens: embed each one
+(`gemini-embedding-001`), cluster **strictly** (complete-linkage — a cluster's similarity to
+another is the *worst* pairwise match, not the average, so one stray review can't drag two
+different complaints into one blob; the threshold was calibrated against Nebula's actual
+similarity distribution, not guessed), then ask the LLM two much narrower questions per
+candidate pair — "are these two clusters the same complaint?" and "name this cluster" — instead
+of "invent categories from nothing." Run live end-to-end on the same 101-review corpus: 21 raw
+clusters → 11 after LLM merge → 9 named themes, **99 of 101 reviews covered** (vs 94/101 for
+one-shot discovery), 0 hallucinated citations across all 9. It also caught something the
+one-shot pass didn't split out on its own: three separate clusters of billing complaints at
+different emotional registers ("SCAM!!!" panic vs. matter-of-fact "charged for a year" vs. calm
+"the palmistry reading is a scam") that the merge step correctly recognized as one theme. Kept
+as an eval/-only prototype for now rather than promoted to `app/` — it needs its own embedding
+API budget on top of the generation budget, which is a real cost/latency trade-off worth a
+deliberate decision rather than a silent swap.
+
+### Keywords — LLM phrase extraction (`eval/llm_keywords.py`, prototype, not wired into `app/`)
+
+The log-odds method above is statistically honest but its output is stemmed tokens ("charg",
+"servic") — accurate as a signal, awkward to quote in a report. This alternative asks the LLM
+to read the whole complaint corpus in one pass (it comfortably fits one context window at
+~100 reviews) and report actual human-readable phrases ("charged twice after cancelling"),
+merging paraphrases itself instead of via post-hoc string matching, with the same
+verify-and-recompute citation discipline as the theme pipeline (a phrase with zero verifiable
+citations is dropped, not reported on trust). Implementation and 4 unit tests on the citation
+logic are done; a live side-by-side comparison against the statistical method is still pending
+— both this and the clustering prototype above were built and unit-tested in the same session
+the Gemini free-tier quota ran out from everything else being validated live, so the head-to-head
+numbers aren't in this README yet.
+
 ### Storage & serving
 
 **In-memory cache behind a 3-function module** (`store.py`) — collection and analysis are
@@ -282,8 +316,12 @@ eval/                research tooling that produced the numbers above — not pa
   calibrate.py            grid-search + cross-validation for the VADER blend/thresholds
   llm_sentiment.py         Gemini sentiment scorer used for eval/comparison
   keywords.py               log-odds keyword extraction, developed/tested here before promotion
-  themes.py                  LLM theme pipeline, developed/tested here before promotion to app/
-  run_*.py                    scripts that produced every number quoted in this README
+  llm_keywords.py             LLM phrase extraction — prototype, not yet promoted to app/
+  themes.py                    LLM theme pipeline, developed/tested here before promotion to app/
+  embeddings.py                  Gemini embeddings client (pure-Python cosine similarity, no numpy)
+  cluster.py                      strict complete-linkage clustering — pure algorithm, no network
+  cluster_llm.py                   embeddings+cluster+LLM-merge pipeline — prototype, not in app/
+  run_*.py                          scripts that produced every number quoted in this README
   data/                        pool.json / labels.json / taxonomy_*.json / themes_*.json — the actual
                                  artifacts backing every number quoted above (small, committed)
 ```

@@ -76,7 +76,7 @@ def main() -> None:
         print(f"\n=== For comparison: one-shot discovery (eval/themes.py) found "
              f"{len(oneshot['themes'])} themes ===")
         for t in oneshot["themes"]:
-            print(f"  {t['theme']} — {t['negative_reviews']} reviews")
+            print(f"  {t['theme']} — {t['review_count']} reviews")
         oneshot_unassigned = sum(1 for ids in oneshot["assignment"].values() if not ids)
         print(f"  ({oneshot_unassigned} of {len(oneshot['assignment'])} reviews matched no theme)")
 
