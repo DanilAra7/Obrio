@@ -1,11 +1,23 @@
+"""Tests for the pure (no-network) logic in app/themes.py: citation
+verification, candidate-pair selection for cluster merging, and union-find
+merging. The LLM-calling parts (embedding, merge judgment, naming) are
+validated live against real data in eval/run_cluster_eval.py — mocking a
+generative model's output convincingly is its own can of worms, so instead
+of fake-mocking it, the pure logic around it is unit-tested and the LLM
+calls themselves are smoke-tested live (same pattern as the rest of the
+project's LLM integration)."""
+
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from eval.themes import verify_citations
+from app.themes import _candidate_pairs, _UnionFind, verify_citations
 
 
+# --------------------------------------------------------------------------- #
+# citation verification
+# --------------------------------------------------------------------------- #
 def test_verify_citations_keeps_real_citations():
     recs = [{"theme": "Billing", "recommendation": "Fix refunds.", "cited_review_ids": ["1", "2"]}]
     valid = {"Billing": {"1", "2", "3"}}
@@ -37,3 +49,60 @@ def test_verify_citations_unknown_theme_has_no_valid_ids():
     recs = [{"theme": "Nonexistent Theme", "recommendation": "...", "cited_review_ids": ["1"]}]
     out = verify_citations(recs, {"Billing": {"1"}})
     assert out[0]["citations_valid"] is False
+
+
+# --------------------------------------------------------------------------- #
+# union-find merging
+# --------------------------------------------------------------------------- #
+def test_union_find_merges_transitively():
+    uf = _UnionFind(4)
+    uf.union(0, 1)
+    uf.union(1, 2)
+    assert uf.find(0) == uf.find(2)
+    assert uf.find(0) != uf.find(3)
+
+
+def test_union_find_no_op_on_already_merged():
+    uf = _UnionFind(3)
+    uf.union(0, 1)
+    root_before = uf.find(0)
+    uf.union(0, 1)  # merging the same pair again should not break anything
+    assert uf.find(0) == root_before
+
+
+# --------------------------------------------------------------------------- #
+# candidate-pair selection for the merge step
+# --------------------------------------------------------------------------- #
+def fake_review(rid):
+    return {"id": rid, "title": "", "text": ""}
+
+
+def test_candidate_pairs_only_returns_pairs_in_the_band():
+    clusters = [[fake_review("a")], [fake_review("b")], [fake_review("c")]]
+    ids = ["a", "b", "c"]
+    matrix = [
+        [1.0, 0.60, 0.30],   # a-b in band [0.55,0.68), a-c below band
+        [0.60, 1.0, 0.90],   # b-c above band (would already have merged during clustering)
+        [0.30, 0.90, 1.0],
+    ]
+    pairs = _candidate_pairs(clusters, matrix, ids, low=0.55, high=0.68)
+    assert pairs == [(0, 1, 0.60)]
+
+
+def test_candidate_pairs_sorted_most_plausible_first():
+    clusters = [[fake_review("a")], [fake_review("b")], [fake_review("c")]]
+    ids = ["a", "b", "c"]
+    matrix = [
+        [1.0, 0.56, 0.60],
+        [0.56, 1.0, 0.30],
+        [0.60, 0.30, 1.0],
+    ]
+    pairs = _candidate_pairs(clusters, matrix, ids, low=0.55, high=0.68)
+    assert [p[:2] for p in pairs] == [(0, 2), (0, 1)]  # 0.60 before 0.56
+
+
+def test_candidate_pairs_empty_when_nothing_in_band():
+    clusters = [[fake_review("a")], [fake_review("b")]]
+    ids = ["a", "b"]
+    matrix = [[1.0, 0.2], [0.2, 1.0]]
+    assert _candidate_pairs(clusters, matrix, ids, low=0.55, high=0.68) == []

@@ -484,4 +484,5 @@ def build_insights(reviews: Sequence[Dict[str, Any]]) -> Dict[str, Any]:
         "themes": themes,
         "actionable_insights": actions,
         "themes_source": "regex",
+        "keywords_source": "statistical",
     }

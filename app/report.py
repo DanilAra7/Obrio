@@ -34,14 +34,23 @@ def _sentiment_bar(sentiment: Dict[str, Any]) -> str:
     return f'<div class="stack">{segments}</div><div class="legend">{legend}</div>'
 
 
+def _keyword_line_html(k: Dict[str, Any]) -> str:
+    """Renders both keyword shapes: the statistical method's z-score/
+    significance badge, or the LLM method's example quote — whichever
+    fields are present (see analysis.negative_keywords vs keywords.llm_keywords)."""
+    bits = [f'<b>{escape(k["term"])}</b> — {k["count"]} mentions ({k["share_of_corpus"]}% of complaint reviews)']
+    if k.get("z_score") is not None:
+        bits.append(f'z={k["z_score"]}' + (' ✓ significant' if k.get("significant") else ''))
+    if k.get("example_quote"):
+        bits.append(f'e.g. &ldquo;{escape(k["example_quote"][:120])}&rdquo;')
+    return f'<li>{", ".join(bits)}</li>'
+
+
 def render_html(batch: Dict[str, Any], insights: Dict[str, Any]) -> str:
     app = batch["app"]
     m, s = insights["metrics"], insights["sentiment"]
-    keywords = "".join(
-        f'<li><b>{escape(k["term"])}</b> — {k["count"]} mentions '
-        f'({k["share_of_corpus"]}% of complaint reviews), z={k["z_score"]}'
-        f'{" ✓ significant" if k["significant"] else ""}</li>' for k in insights["negative_keywords"]
-    ) or "<li>No complaints in this sample.</li>"
+    keywords = "".join(_keyword_line_html(k) for k in insights["negative_keywords"]) \
+        or "<li>No complaints in this sample.</li>"
 
     themes = "".join(
         f'<div class="theme"><h3>{escape(t["theme"])} '
@@ -74,6 +83,7 @@ def render_html(batch: Dict[str, Any], insights: Dict[str, Any]) -> str:
  .theme small {{ font-weight: normal; color: #7a828a; }}
  blockquote {{ margin: 6px 0; padding: 6px 10px; background: #8881; border-radius: 6px; font-size: 14px; }}
  .rec {{ margin: 4px 0; }}
+ .src {{ font-weight: normal; color: #7a828a; font-size: 13px; }}
 </style></head><body>
 <h1>{escape(str(app.get('name')))}</h1>
 <p class="muted">{escape(str(app.get('developer')))} · storefront {escape(batch['country'].upper())} ·
@@ -88,8 +98,8 @@ def render_html(batch: Dict[str, Any], insights: Dict[str, Any]) -> str:
 </div>
 <h2>Rating distribution</h2>{_bar_rows(m['rating_distribution'])}
 <h2>Sentiment distribution</h2>{_sentiment_bar(s)}
-<h2>Keywords driving complaints</h2><ul>{keywords}</ul>
-<h2>Themes &amp; recommendations</h2>{themes}
+<h2>Keywords driving complaints <small class="src">({escape(insights.get('keywords_source', 'statistical'))})</small></h2><ul>{keywords}</ul>
+<h2>Themes &amp; recommendations <small class="src">({escape(insights.get('themes_source', 'regex'))})</small></h2>{themes}
 <h2>Actionable insights</h2><ol>{actions}</ol>
 </body></html>"""
 
@@ -133,14 +143,20 @@ def render_markdown(batch: Dict[str, Any], insights: Dict[str, Any]) -> str:
         f"| {k} | {s['counts'][k]} | {s['percentages'][k]}% |" for k in ("positive", "neutral", "negative")
     ]
 
-    lines += ["", "## Keywords driving complaints", "",
-              "| Term | Mentions | Share of complaints | z-score | Significant (p<0.05) |",
-              "| --- | --- | --- | --- | --- |"]
+    kw_source = insights.get("keywords_source", "statistical")
+    lines += ["", f"## Keywords driving complaints ({kw_source})", "",
+              "| Term | Mentions | Share of complaints | Signal |", "| --- | --- | --- | --- |"]
     for k in insights["negative_keywords"]:
-        lines.append(f"| `{k['term']}` | {k['count']} | {k['share_of_corpus']}% | {k['z_score']} | "
-                     f"{'✓' if k['significant'] else ''} |")
+        if k.get("z_score") is not None:
+            signal = f"z={k['z_score']}" + (" ✓ significant" if k.get("significant") else "")
+        elif k.get("example_quote"):
+            signal = f"e.g. “{k['example_quote'][:80]}”"
+        else:
+            signal = ""
+        lines.append(f"| `{k['term']}` | {k['count']} | {k['share_of_corpus']}% | {signal} |")
 
-    lines += ["", "## Themes & recommendations", ""]
+    themes_source = insights.get("themes_source", "regex")
+    lines += ["", f"## Themes & recommendations ({themes_source})", ""]
     for t in insights["themes"]:
         lines += [f"### {t['theme']} — {t['negative_reviews']} negative reviews "
                   f"({t['share_of_negative']}% of negative, avg {t['avg_rating']}★)", "",

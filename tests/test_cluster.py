@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from eval.cluster import cluster_pair_similarity, cluster_reviews, complete_linkage_cluster, similarity_matrix
+from app.cluster import cluster_pair_similarity, cluster_reviews, complete_linkage_cluster, similarity_matrix
 
 
 def fake_cosine(a, b):

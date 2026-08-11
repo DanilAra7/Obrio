@@ -1,63 +1,220 @@
 """LLM theme discovery — the GEMINI_API_KEY-enabled upgrade over
-analysis.py's hardcoded 9-regex theme_analysis(). Three stages:
+analysis.py's hardcoded 9-regex theme_analysis().
 
-  1. discover_taxonomy() — reads a sample of the negative-analysis corpus and
-     proposes 5-9 themes grounded in what THIS app's reviews actually say,
-     instead of a generic subscription-app checklist. Pinned to disk
-     (data/taxonomy_<app_id>.json) so repeated runs on the same app are
-     comparable rather than reshuffling theme names every call.
-  2. assign_themes() — multi-label classification of every review against
-     the FIXED taxonomy (a billing complaint that also gripes about support
-     hits both themes). Any theme name the model invents outside the fixed
-     list is dropped.
-  3. write_recommendations() — one recommendation per theme, REQUIRED to
-     cite specific review ids. Citations are verified against the real
-     assignment before being trusted — a hallucinated id is dropped and the
-     theme is flagged `citations_valid: false` rather than shipping unnoticed.
+Pipeline: embed every review -> cluster STRICTLY -> LLM-judge whether close
+clusters should merge -> name + describe + recommend each survivor, citing
+specific review ids.
 
-Validated in eval/run_themes_eval.py against Nebula's real review corpus:
-found two themes (non-inclusive gender options, per-minute psychic pricing)
-that the old regex taxonomy had no pattern for at all, with 0 hallucinated
-citations across 8 themes.
+This replaced an earlier one-shot version ("read a sample of ≤60 reviews,
+ask the LLM to invent 5-9 themes from it") after a head-to-head run on
+Nebula's real 101-review complaint corpus: the one-shot version only ever
+saw a sample, so 7 of 101 reviews matched no theme at all — nothing had
+generated a category their specific complaint fit. This pipeline embeds
+every review before any LLM judgment happens, so a rare-but-real pattern
+still gets its own cluster instead of being sampled out. Same run: 99 of
+101 reviews covered, 0 hallucinated citations across 9 merged themes (vs
+94/101 and 8 themes for the one-shot version) — see eval/data/clusters_*.json
+and eval/data/themes_*.json for the raw comparison data, and
+eval/run_cluster_eval.py to reproduce it.
+
+Stages:
+  1. embed every review in the complaint corpus (app/embeddings.py) and
+     cluster STRICTLY (app/cluster.py, complete-linkage, high threshold) —
+     deliberately over-segments; merging bad splits is stage 2's job. The
+     threshold is calibrated against a live similarity distribution, not
+     guessed (see CLUSTER_THRESHOLD below).
+  2. for cluster pairs whose similarity falls in the candidate band (close,
+     but not close enough to have auto-merged), ask the LLM a narrow
+     same-theme-or-different question and union-merge on "same" — a much
+     easier question to get right than "invent categories from nothing"
+  3. name + describe + recommend each surviving cluster, citing specific
+     review ids. Citations are checked programmatically against the real
+     cluster membership before being trusted — a hallucinated id is dropped
+     and the theme is flagged `citations_valid: false` rather than shipping
+     a fabricated citation unnoticed.
 """
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Tuple
 
 import httpx
 
 from . import llm
+from .cluster import cluster_pair_similarity, cluster_reviews, similarity_matrix
+from .embeddings import cosine, embed_reviews
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-MAX_DISCOVERY_SAMPLE = 60
-ASSIGN_BATCH_SIZE = 15
-MAX_REVIEWS_PER_THEME = 12
+CLUSTER_THRESHOLD = 0.68     # complete-linkage merge bar — calibrated live against Nebula's real
+                             # similarity distribution (median pairwise sim was 0.67, so anything
+                             # near that is "not obviously related"; see eval/run_cluster_eval.py)
+CANDIDATE_LOW = 0.55         # below this, two clusters are almost certainly unrelated — not worth
+                             # spending an LLM call to confirm the obvious
+MERGE_BATCH_SIZE = 10        # candidate pairs per LLM call
+SAMPLE_PER_GROUP_MERGE = 4   # reviews shown per side when judging a merge
+SAMPLE_PER_GROUP_NAME = 10   # reviews shown per cluster when naming/recommending
+MIN_THEME_SIZE = 2           # clusters smaller than this aren't worth naming ("fix what?" for n=1)
 
 
 # --------------------------------------------------------------------------- #
-# stage 1: discovery (+ pinning)
+# shared: citation verification (also used by app/keywords.py)
 # --------------------------------------------------------------------------- #
-DISCOVERY_SYSTEM = """You analyze App Store reviews to find recurring product problems.
-You will be given a sample of reviews that all express some dissatisfaction (ranging from
-a minor gripe in an otherwise happy review, to an angry 1-star rant). Read them and propose
-5 to 9 THEMES that group the complaints — grounded specifically in what these reviews actually
-say, not a generic checklist. Each theme needs a short name (2-4 words) and a one-sentence
-definition precise enough that a different reader could consistently classify a new review
-against it. Avoid overlapping themes — if two of your themes would usually apply together to
-the same review, merge them."""
+def verify_citations(recommendations: List[Dict], valid_ids_by_group: Dict[str, set]) -> List[Dict]:
+    """Any cited id not actually in that group's review set is dropped;
+    citations_valid=False means zero real citations survived — the caller
+    treats that as "unverified", never as "trust it anyway"."""
+    out = []
+    for rec in recommendations:
+        group = rec["theme"]
+        valid_ids = valid_ids_by_group.get(group, set())
+        cited = [rid for rid in rec.get("cited_review_ids", []) if rid in valid_ids]
+        dropped = len(rec.get("cited_review_ids", [])) - len(cited)
+        out.append({"theme": group, "recommendation": rec["recommendation"], "cited_review_ids": cited,
+                    "citations_valid": len(cited) > 0, "hallucinated_citations_dropped": dropped})
+    return out
 
-DISCOVERY_SCHEMA = {
+
+# --------------------------------------------------------------------------- #
+# stage 1: embed + strict cluster
+# --------------------------------------------------------------------------- #
+async def discover_clusters(reviews: List[Dict], threshold: float = CLUSTER_THRESHOLD
+                            ) -> Tuple[List[List[Dict]], List[List[float]], List[str]]:
+    """Returns (clusters as lists of review dicts, full similarity matrix, id order) —
+    the matrix and id order let stage 2 find candidate pairs without re-embedding."""
+    by_id = {r["id"]: r for r in reviews}
+    embeddings = await embed_reviews(reviews)
+    ids = list(embeddings.keys())
+    vectors = [embeddings[i] for i in ids]
+
+    matrix = similarity_matrix(vectors, cosine)
+    id_clusters = cluster_reviews(ids, vectors, cosine, threshold=threshold)
+    review_clusters = [[by_id[rid] for rid in cluster] for cluster in id_clusters]
+    return review_clusters, matrix, ids
+
+
+# --------------------------------------------------------------------------- #
+# stage 2: LLM merge judgment
+# --------------------------------------------------------------------------- #
+MERGE_SYSTEM = """You are given pairs of App Store review groups. Each group was formed by
+semantic similarity, not by you. For each pair, decide whether the two groups represent the
+SAME underlying complaint/theme (should be merged into one) or genuinely DIFFERENT complaints
+(should stay separate). Judge by what the reviews are actually unhappy about, not surface
+wording — e.g. two groups both about unexpected billing charges are the same theme even if one
+says "scam" and the other says "charged twice"."""
+
+MERGE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "decisions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "pair_id": {"type": "string"},
+                    "same_theme": {"type": "boolean"},
+                    "reason": {"type": "string"},
+                },
+                "required": ["pair_id", "same_theme", "reason"],
+            },
+        }
+    },
+    "required": ["decisions"],
+}
+
+
+def _candidate_pairs(clusters: List[List[Dict]], matrix: List[List[float]], ids: List[str],
+                     low: float = CANDIDATE_LOW, high: float = CLUSTER_THRESHOLD) -> List[Tuple[int, int, float]]:
+    idx_of = {rid: i for i, rid in enumerate(ids)}
+    cluster_idx = [[idx_of[r["id"]] for r in c] for c in clusters]
+    pairs = []
+    for i in range(len(clusters)):
+        for j in range(i + 1, len(clusters)):
+            sim = cluster_pair_similarity(cluster_idx[i], cluster_idx[j], matrix)
+            if low <= sim < high:
+                pairs.append((i, j, sim))
+    pairs.sort(key=lambda p: -p[2])  # judge the most-plausible merges first
+    return pairs
+
+
+class _UnionFind:
+    def __init__(self, n: int):
+        self.parent = list(range(n))
+
+    def find(self, x: int) -> int:
+        while self.parent[x] != x:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
+
+    def union(self, a: int, b: int) -> None:
+        ra, rb = self.find(a), self.find(b)
+        if ra != rb:
+            self.parent[rb] = ra
+
+
+async def merge_clusters(clusters: List[List[Dict]], matrix: List[List[float]], ids: List[str]
+                         ) -> List[List[Dict]]:
+    """Judges every candidate pair, then union-merges the ones the LLM calls
+    "same theme". If the LLM is unavailable, returns the clusters unmerged
+    (over-segmented) rather than failing — an extra, slightly redundant
+    theme in the output is a far cheaper failure than crashing the endpoint.
+    """
+    pairs = _candidate_pairs(clusters, matrix, ids)
+    if not pairs:
+        return clusters
+
+    uf = _UnionFind(len(clusters))
+    async with httpx.AsyncClient() as client:
+        for batch_start in range(0, len(pairs), MERGE_BATCH_SIZE):
+            batch = pairs[batch_start:batch_start + MERGE_BATCH_SIZE]
+            payload = []
+            for k, (i, j, sim) in enumerate(batch):
+                payload.append({
+                    "pair_id": str(k),
+                    "group_a": [f"{r.get('title','')}: {r.get('text','')}"[:200]
+                               for r in clusters[i][:SAMPLE_PER_GROUP_MERGE]],
+                    "group_b": [f"{r.get('title','')}: {r.get('text','')}"[:200]
+                               for r in clusters[j][:SAMPLE_PER_GROUP_MERGE]],
+                })
+            try:
+                response = await llm.call(MERGE_SYSTEM, payload, MERGE_SCHEMA, client=client)
+            except llm.LLMError:
+                continue  # leave this batch's pairs unmerged rather than fail the whole pipeline
+            decisions = {d["pair_id"]: d["same_theme"] for d in response.get("decisions", [])}
+            for k, (i, j, sim) in enumerate(batch):
+                if decisions.get(str(k)):
+                    uf.union(i, j)
+
+    groups: Dict[int, List[Dict]] = {}
+    for i, cluster in enumerate(clusters):
+        root = uf.find(i)
+        groups.setdefault(root, []).extend(cluster)
+    return list(groups.values())
+
+
+# --------------------------------------------------------------------------- #
+# stage 3: name + describe + recommend, cited and verified
+# --------------------------------------------------------------------------- #
+NAME_SYSTEM = """Each numbered group below is a cluster of App Store reviews sharing a complaint
+theme (grouped by semantic similarity, not by you — your job is only to describe and act on
+what's already grouped). For each group: give a short theme name (2-4 words), a one-sentence
+description, ONE actionable product recommendation, and cite 2-4 specific review ids from that
+exact group as evidence. Do not merge or split groups — describe each one as given."""
+
+NAME_SCHEMA = {
     "type": "object",
     "properties": {
         "themes": {
             "type": "array",
             "items": {
                 "type": "object",
-                "properties": {"name": {"type": "string"}, "description": {"type": "string"}},
-                "required": ["name", "description"],
+                "properties": {
+                    "cluster_id": {"type": "string"},
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                    "recommendation": {"type": "string"},
+                    "cited_review_ids": {"type": "array", "items": {"type": "string"}},
+                },
+                "required": ["cluster_id", "name", "description", "recommendation", "cited_review_ids"],
             },
         }
     },
@@ -65,184 +222,73 @@ DISCOVERY_SCHEMA = {
 }
 
 
-def _taxonomy_path(app_id: Any) -> Path:
-    return DATA_DIR / f"taxonomy_{app_id}.json"
-
-
-def load_taxonomy(app_id: Any) -> Optional[List[Dict]]:
-    path = _taxonomy_path(app_id)
-    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
-
-
-def save_taxonomy(app_id: Any, themes: List[Dict]) -> None:
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    _taxonomy_path(app_id).write_text(json.dumps(themes, ensure_ascii=False, indent=2), encoding="utf-8")
-
-
-async def discover_taxonomy(reviews: List[Dict], sample_size: int = MAX_DISCOVERY_SAMPLE) -> List[Dict]:
-    sample = reviews[:sample_size]
-    payload = [{"id": r["id"], "title": r.get("title", ""), "text": r.get("text", "")} for r in sample]
-    result = await llm.call(DISCOVERY_SYSTEM, payload, DISCOVERY_SCHEMA)
-    return result["themes"]
-
-
-# --------------------------------------------------------------------------- #
-# stage 2: assignment
-# --------------------------------------------------------------------------- #
-ASSIGN_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "results": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {"id": {"type": "string"}, "themes": {"type": "array", "items": {"type": "string"}}},
-                "required": ["id", "themes"],
-            },
-        }
-    },
-    "required": ["results"],
-}
-
-
-def _assign_system(taxonomy: List[Dict]) -> str:
-    listing = "\n".join(f'- "{t["name"]}": {t["description"]}' for t in taxonomy)
-    return f"""Classify each review against this FIXED set of themes — do not invent new theme
-names, use exactly the names given:
-{listing}
-
-A review can match zero, one, or several themes (multi-label). Only assign a theme when the
-review's text actually supports it. Return an empty "themes" list for reviews matching none."""
-
-
-async def assign_themes(reviews: List[Dict], taxonomy: List[Dict],
-                        batch_size: int = ASSIGN_BATCH_SIZE) -> Dict[str, List[str]]:
-    valid_names = {t["name"] for t in taxonomy}
-    system = _assign_system(taxonomy)
-    results: Dict[str, List[str]] = {}
-
-    async with httpx.AsyncClient() as client:
-        for i in range(0, len(reviews), batch_size):
-            batch = reviews[i:i + batch_size]
-            payload = [{"id": r["id"], "title": r.get("title", ""), "text": r.get("text", "")} for r in batch]
-            try:
-                response = await llm.call(system, payload, ASSIGN_SCHEMA, client=client)
-            except llm.LLMError:
-                for r in batch:
-                    results[r["id"]] = []
-                continue
-            by_id = {r["id"]: r.get("themes", []) for r in response["results"]}
-            for r in batch:
-                results[r["id"]] = [t for t in by_id.get(r["id"], []) if t in valid_names]
-    return results
-
-
-# --------------------------------------------------------------------------- #
-# stage 3: recommendations, cited and verified
-# --------------------------------------------------------------------------- #
-RECOMMEND_SYSTEM = """For each theme below, write ONE actionable product recommendation (1-2
-sentences) grounded in the specific reviews listed for it. You MUST cite 2-4 "cited_review_ids"
-from the ids actually given to you for that theme — citing an id not in the list, or citing
-none, is a failure. Do not generalize beyond what these specific reviews say."""
-
-RECOMMEND_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "recommendations": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "theme": {"type": "string"},
-                    "recommendation": {"type": "string"},
-                    "cited_review_ids": {"type": "array", "items": {"type": "string"}},
-                },
-                "required": ["theme", "recommendation", "cited_review_ids"],
-            },
-        }
-    },
-    "required": ["recommendations"],
-}
-
-
-def verify_citations(recommendations: List[Dict], valid_ids_by_theme: Dict[str, set]) -> List[Dict]:
-    """Pure validation, kept separate from the network call so it's unit-
-    testable: any cited id not actually in that theme's review set is
-    dropped; citations_valid=False means zero real citations survived."""
-    out = []
-    for rec in recommendations:
-        theme = rec["theme"]
-        valid_ids = valid_ids_by_theme.get(theme, set())
-        cited = [rid for rid in rec.get("cited_review_ids", []) if rid in valid_ids]
-        dropped = len(rec.get("cited_review_ids", [])) - len(cited)
-        out.append({"theme": theme, "recommendation": rec["recommendation"], "cited_review_ids": cited,
-                    "citations_valid": len(cited) > 0, "hallucinated_citations_dropped": dropped})
-    return out
-
-
-async def write_recommendations(reviews_by_theme: Dict[str, List[Dict]],
-                                max_reviews_per_theme: int = MAX_REVIEWS_PER_THEME) -> List[Dict]:
-    payload = {theme: [{"id": r["id"], "title": r.get("title", ""), "text": r.get("text", "")}
-                       for r in revs[:max_reviews_per_theme]]
-              for theme, revs in reviews_by_theme.items() if revs}
-    if not payload:
-        return []
-    response = await llm.call(RECOMMEND_SYSTEM, payload, RECOMMEND_SCHEMA)
-    valid_ids_by_theme = {theme: {r["id"] for r in revs} for theme, revs in reviews_by_theme.items()}
-    return verify_citations(response["recommendations"], valid_ids_by_theme)
-
-
-# --------------------------------------------------------------------------- #
-# full pipeline, adapted to theme_analysis()'s output shape
-# --------------------------------------------------------------------------- #
-async def llm_theme_analysis(reviews: List[Dict], app_id: Any, max_quotes: int = 2,
-                             force_rediscover: bool = False) -> List[Dict]:
-    """Drop-in replacement for analysis.theme_analysis(): same output shape
-    (theme, negative_reviews, share_of_negative, avg_rating, recommendation,
-    sample_quotes), plus extra fields (description, cited_review_ids,
-    citations_valid) that report.py may use but doesn't require. Raises
-    llm.LLMError on failure — callers must catch it and fall back to
-    theme_analysis(), never let a broken LLM call take down the endpoint."""
-    corpus = [r for r in reviews if r.get("sentiment") == "negative" or r.get("has_complaint")]
-    if not corpus:
+async def name_and_recommend(clusters: List[List[Dict]], min_size: int = MIN_THEME_SIZE) -> List[Dict]:
+    """Singleton clusters (below min_size) are dropped — "what should we fix"
+    isn't a meaningful question for a single review. Output shape matches the
+    regex fallback's theme_analysis() (theme/negative_reviews/share_of_negative/
+    avg_rating/recommendation/sample_quotes) so callers don't need two code
+    paths, plus cited_review_ids/citations_valid for the anti-hallucination
+    signal the regex path has no equivalent of."""
+    named_targets = [(str(i), c) for i, c in enumerate(clusters) if len(c) >= min_size]
+    if not named_targets:
         return []
 
-    taxonomy = None if force_rediscover else load_taxonomy(app_id)
-    if taxonomy is None:
-        taxonomy = await discover_taxonomy(corpus)
-        save_taxonomy(app_id, taxonomy)
+    payload = {
+        cid: [{"id": r["id"], "title": r.get("title", ""), "text": r.get("text", "")}
+             for r in c[:SAMPLE_PER_GROUP_NAME]]
+        for cid, c in named_targets
+    }
+    response = await llm.call(NAME_SYSTEM, payload, NAME_SCHEMA)
 
-    assignment = await assign_themes(corpus, taxonomy)
-    by_id = {r["id"]: r for r in corpus}
-    reviews_by_theme: Dict[str, List[Dict]] = {t["name"]: [] for t in taxonomy}
-    for rid, theme_names in assignment.items():
-        for name in theme_names:
-            reviews_by_theme[name].append(by_id[rid])
-
-    recommendations = await write_recommendations(reviews_by_theme)
-    rec_by_theme = {r["theme"]: r for r in recommendations}
+    valid_ids_by_cluster = {cid: {r["id"] for r in c} for cid, c in named_targets}
+    verified = verify_citations(
+        [{"theme": t["cluster_id"], "recommendation": t["recommendation"],
+          "cited_review_ids": t["cited_review_ids"]} for t in response["themes"]],
+        valid_ids_by_cluster,
+    )
+    verified_by_id = {v["theme"]: v for v in verified}
+    reviews_by_cluster = {cid: c for cid, c in named_targets}
+    by_id = {cid: {r["id"]: r for r in c} for cid, c in named_targets}
 
     out = []
-    for t in taxonomy:
-        revs = reviews_by_theme.get(t["name"], [])
-        if not revs:
-            continue
-        rec = rec_by_theme.get(t["name"], {})
-        cited_ids = rec.get("cited_review_ids", [])
-        quotes = [by_id[rid]["text"] or by_id[rid]["title"] for rid in cited_ids[:max_quotes] if rid in by_id]
-        if not quotes:  # citations missing/invalid — fall back to longest reviews as evidence
-            quotes = [r["text"] or r["title"] for r in
-                     sorted(revs, key=lambda r: len(r.get("text", "")), reverse=True)[:max_quotes]]
+    for t in response["themes"]:
+        cid = t["cluster_id"]
+        v = verified_by_id.get(cid, {})
+        cited = v.get("cited_review_ids", [])
+        revs = reviews_by_cluster.get(cid, [])
+        quotes = [by_id[cid][rid]["text"] or by_id[cid][rid]["title"] for rid in cited[:2] if rid in by_id.get(cid, {})]
         out.append({
             "theme": t["name"],
             "description": t["description"],
             "negative_reviews": len(revs),
-            "share_of_negative": round(100 * len(revs) / len(corpus), 2),
-            "avg_rating": round(sum(r["rating"] for r in revs) / len(revs), 2),
-            "recommendation": rec.get("recommendation", t["description"]),
+            "avg_rating": round(sum(r["rating"] for r in revs) / len(revs), 2) if revs else 0.0,
+            "recommendation": t["recommendation"],
             "sample_quotes": [q[:280] for q in quotes],
-            "cited_review_ids": cited_ids,
-            "citations_valid": rec.get("citations_valid", False),
+            "cited_review_ids": cited,
+            "citations_valid": v.get("citations_valid", False),
         })
     out.sort(key=lambda t: -t["negative_reviews"])
     return out
+
+
+# --------------------------------------------------------------------------- #
+# entry point used by main.py
+# --------------------------------------------------------------------------- #
+async def llm_theme_analysis(reviews: List[Dict], app_id: Any, max_quotes: int = 2) -> List[Dict]:
+    """reviews: the full collected batch (negative ∪ has_complaint filtering
+    happens here, same corpus definition as the regex fallback). Raises
+    llm.LLMError on failure — callers must catch it and fall back to
+    analysis.theme_analysis(), never let a broken LLM/embedding call take
+    down the endpoint. `app_id` is accepted for interface parity with the
+    regex fallback's call site in main.py; clustering re-derives themes from
+    the full corpus every call rather than pinning a taxonomy to disk, so it
+    isn't otherwise used — unlike the old one-shot version, there's no
+    separately-invented category list that needs to stay stable across runs.
+    """
+    corpus = [r for r in reviews if r.get("sentiment") == "negative" or r.get("has_complaint")]
+    if not corpus:
+        return []
+
+    clusters, matrix, ids = await discover_clusters(corpus)
+    merged = await merge_clusters(clusters, matrix, ids)
+    return await name_and_recommend(merged)
