@@ -191,10 +191,12 @@ once its four inflected forms are merged.
 **Reported honestly, not oversold**: each term carries `z_score` and `significant`
 (|z| ≥ 1.96, conventional p<0.05). On Nebula's ~100-mention negative corpus, *zero* terms
 individually clear that bar — sample size matters, and the tool says so instead of dressing up
-noise as a finding. A companion bootstrap-stability check (`eval/run_keywords_eval.py`) adds
-useful nuance the z-test misses: the top 3 terms survive in >99% of resamples even without
-individual significance, while the tail (5th-15th place) survives in only 15-50% — a
-practical signal for which results to trust versus treat as "worth a human look."
+noise as a finding. A companion bootstrap-stability check (`eval/run_keyword_stability.py`, 200
+resamples) adds useful nuance the z-test misses: the top 3 terms ("charg", "subscription",
+"cancel") survive in the top-10 in 99.5-100% of resamples even without individual significance,
+while rank 4 onward degrades steadily (75-76% for ranks 4-5, down to 38-55% by rank 8-10) — a
+practical signal for which results to trust versus treat as "worth a human look," reproducible
+by rerunning the script (it's deterministic given the seed).
 
 ### Themes & recommendations (Part 4c)
 
