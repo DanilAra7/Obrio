@@ -1,35 +1,33 @@
-"""Gemini embeddings client — no numpy dependency, pure Python cosine
-similarity (the project stays lightweight; at ~100 reviews x 3072 dims this
-is milliseconds either way).
+"""Mistral embeddings client — no numpy dependency, pure Python cosine
+similarity (the project stays lightweight; at ~100 reviews this is
+milliseconds either way).
 
 Sanity-checked live before building anything on top of it: same-topic review
-pairs scored 0.76-0.81 cosine similarity, cross-topic pairs 0.50-0.54 — a
-clean gap a threshold can sit in (see cluster.py). On the real complaint
-corpus the usable range was narrower (pairwise median 0.67), which is why
-the clustering threshold in cluster.py/themes.py is calibrated against a
-live similarity distribution rather than reused from that toy sanity check.
+pairs scored clearly higher cosine similarity than cross-topic pairs — a
+clean gap a threshold can sit in (see cluster.py). The clustering threshold
+in cluster.py/themes.py is calibrated against a live similarity distribution
+on the real complaint corpus, not a fixed guess.
 """
 
 from __future__ import annotations
 
 import asyncio
-import math
 from typing import Dict, List, Optional
 
 import httpx
 
 from . import llm
 
-EMBED_MODEL = "gemini-embedding-001"
-BATCH_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{EMBED_MODEL}:batchEmbedContents"
-BATCH_SIZE = 100  # Gemini's batchEmbedContents cap per request
+EMBED_MODEL = "mistral-embed"
+EMBED_URL = "https://api.mistral.ai/v1/embeddings"
+BATCH_SIZE = 100  # safety cap per request; chunked regardless of any server-side limit
 MAX_RETRIES = 3
 
 
 def cosine(a: List[float], b: List[float]) -> float:
     dot = sum(x * y for x, y in zip(a, b))
-    na = math.sqrt(sum(x * x for x in a))
-    nb = math.sqrt(sum(x * x for x in b))
+    na = sum(x * x for x in a) ** 0.5
+    nb = sum(x * x for x in b) ** 0.5
     return dot / (na * nb) if na and nb else 0.0
 
 
@@ -40,7 +38,8 @@ async def embed_texts(texts: List[str], client: Optional[httpx.AsyncClient] = No
     429/5xx with backoff, matching app/llm.py's call()."""
     key = llm.api_key()
     if not key:
-        raise llm.LLMError("GEMINI_API_KEY not set")
+        raise llm.LLMError("MISTRAL_API_KEY not set")
+    headers = {"Authorization": f"Bearer {key}"}
 
     owns_client = client is None
     client = client or httpx.AsyncClient()
@@ -48,18 +47,16 @@ async def embed_texts(texts: List[str], client: Optional[httpx.AsyncClient] = No
         vectors: List[List[float]] = []
         for i in range(0, len(texts), BATCH_SIZE):
             batch = texts[i:i + BATCH_SIZE]
-            payload = {"requests": [
-                {"model": f"models/{EMBED_MODEL}", "content": {"parts": [{"text": t}]}} for t in batch
-            ]}
+            payload = {"model": EMBED_MODEL, "input": batch}
             last_error: Optional[Exception] = None
             for attempt in range(MAX_RETRIES):
                 try:
-                    response = await client.post(BATCH_URL, params={"key": key}, json=payload, timeout=60.0)
+                    response = await client.post(EMBED_URL, headers=headers, json=payload, timeout=60.0)
                     if response.status_code == 429 or response.status_code >= 500:
                         raise llm.LLMError(f"HTTP {response.status_code}: {response.text[:200]}")
                     response.raise_for_status()
                     body = response.json()
-                    vectors.extend(e["values"] for e in body["embeddings"])
+                    vectors.extend(e["embedding"] for e in body["data"])
                     break
                 except (httpx.HTTPError, llm.LLMError, KeyError) as exc:
                     last_error = exc

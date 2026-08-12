@@ -1,11 +1,13 @@
-"""Tests for the LLM-upgrade wiring in main.py — mocked, no network. Verifies
-the graceful-degradation contract: an LLM outage or missing key must never
-break an endpoint, only fall back to the deterministic regex/statistical/
-VADER path — and that the keywords and themes upgrades are independent of
-each other (one can succeed while the other fails).
+"""Tests for the LLM-upgrade wiring in analysis.apply_llm_upgrades() — mocked,
+no network. Shared by main.py (API) and cli.py (standalone script), so these
+tests cover both entry points at once. Verifies the graceful-degradation
+contract: an LLM outage or missing key must never break the caller, only
+fall back to the deterministic regex/statistical/VADER path — and that the
+keywords and themes upgrades are independent of each other (one can succeed
+while the other fails).
 
 Every test that sets a (fake) API key mocks BOTH keywords.llm_keywords and
-themes.llm_theme_analysis, even when only one is under test: _apply_llm_upgrades
+themes.llm_theme_analysis, even when only one is under test: apply_llm_upgrades
 calls both once a key is present, so leaving either one unmocked means it
 actually hits the network with a bogus key — slow, flaky, and exactly what
 conftest.py's fast/free/deterministic contract exists to prevent. (An earlier
@@ -23,8 +25,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app import keywords, llm, themes
-from app.analysis import prepare
-from app.main import _apply_llm_upgrades
+from app.analysis import apply_llm_upgrades, prepare
 
 
 def sample_reviews():
@@ -56,7 +57,7 @@ def _mock_key_and_defaults(monkeypatch):
 # --------------------------------------------------------------------------- #
 def test_no_api_key_returns_fully_deterministic_output_unchanged(monkeypatch):
     monkeypatch.setattr(llm, "api_key", lambda: None)
-    insights = asyncio.run(_apply_llm_upgrades(sample_reviews(), app_id=1))
+    insights = asyncio.run(apply_llm_upgrades(sample_reviews(), app_id=1))
     assert insights["themes_source"] == "regex"
     assert insights["keywords_source"] == "statistical"
     assert insights["themes"]  # regex path still found the billing theme
@@ -72,7 +73,7 @@ def test_theme_llm_failure_falls_back_to_regex_themes(monkeypatch):
         raise llm.LLMError("simulated outage")
 
     monkeypatch.setattr(themes, "llm_theme_analysis", boom)
-    insights = asyncio.run(_apply_llm_upgrades(sample_reviews(), app_id=1))
+    insights = asyncio.run(apply_llm_upgrades(sample_reviews(), app_id=1))
     assert insights["themes_source"] == "regex"
     assert insights["themes"]
 
@@ -90,7 +91,7 @@ def test_theme_llm_success_swaps_in_llm_themes_and_regenerates_text(monkeypatch)
         return fake_themes
 
     monkeypatch.setattr(themes, "llm_theme_analysis", fake_pipeline)
-    insights = asyncio.run(_apply_llm_upgrades(sample_reviews(), app_id=1))
+    insights = asyncio.run(apply_llm_upgrades(sample_reviews(), app_id=1))
 
     assert insights["themes_source"] == "llm"
     assert insights["themes"] == fake_themes
@@ -101,7 +102,7 @@ def test_theme_llm_success_swaps_in_llm_themes_and_regenerates_text(monkeypatch)
 
 def test_theme_llm_returning_no_themes_keeps_regex_fallback(monkeypatch):
     _mock_key_and_defaults(monkeypatch)
-    insights = asyncio.run(_apply_llm_upgrades(sample_reviews(), app_id=1))  # both stubs already return []
+    insights = asyncio.run(apply_llm_upgrades(sample_reviews(), app_id=1))  # both stubs already return []
     assert insights["themes_source"] == "regex"
 
 
@@ -115,7 +116,7 @@ def test_keyword_llm_failure_falls_back_to_statistical(monkeypatch):
         raise llm.LLMError("simulated outage")
 
     monkeypatch.setattr(keywords, "llm_keywords", boom)
-    insights = asyncio.run(_apply_llm_upgrades(sample_reviews(), app_id=1))
+    insights = asyncio.run(apply_llm_upgrades(sample_reviews(), app_id=1))
     assert insights["keywords_source"] == "statistical"
 
 
@@ -130,14 +131,14 @@ def test_keyword_llm_success_swaps_in_llm_phrases(monkeypatch):
         return fake_phrases
 
     monkeypatch.setattr(keywords, "llm_keywords", fake_extract)
-    insights = asyncio.run(_apply_llm_upgrades(sample_reviews(), app_id=1))
+    insights = asyncio.run(apply_llm_upgrades(sample_reviews(), app_id=1))
     assert insights["keywords_source"] == "llm"
     assert insights["negative_keywords"] == fake_phrases
 
 
 def test_keyword_llm_returning_empty_keeps_statistical_fallback(monkeypatch):
     _mock_key_and_defaults(monkeypatch)
-    insights = asyncio.run(_apply_llm_upgrades(sample_reviews(), app_id=1))  # both stubs already return []
+    insights = asyncio.run(apply_llm_upgrades(sample_reviews(), app_id=1))  # both stubs already return []
     assert insights["keywords_source"] == "statistical"
 
 
@@ -156,7 +157,7 @@ def test_keyword_success_and_theme_failure_are_independent(monkeypatch):
 
     monkeypatch.setattr(keywords, "llm_keywords", fake_extract)
     monkeypatch.setattr(themes, "llm_theme_analysis", theme_boom)
-    insights = asyncio.run(_apply_llm_upgrades(sample_reviews(), app_id=1))
+    insights = asyncio.run(apply_llm_upgrades(sample_reviews(), app_id=1))
 
     assert insights["keywords_source"] == "llm"
     assert insights["themes_source"] == "regex"

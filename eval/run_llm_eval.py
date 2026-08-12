@@ -1,4 +1,4 @@
-"""Score the labeled set with Gemini and compare against baselines + human labels.
+"""Score the labeled set with Mistral and compare against baselines + human labels.
 
     python -m eval.run_llm_eval
 """
@@ -27,7 +27,7 @@ def main() -> None:
         print("labels.json exists but is empty.")
         return
 
-    print(f"Scoring {len(items)} labeled reviews with Gemini (cached results are reused)...")
+    print(f"Scoring {len(items)} labeled reviews with Mistral (cached results are reused)...")
     llm_results = asyncio.run(score_items(items))
 
     errors = {k: v for k, v in llm_results.items() if "error" in v}
@@ -42,7 +42,7 @@ def main() -> None:
     print_report(evaluate(items, shipped_predict, name="shipped (VADER+rating blend)"))
     print_report(evaluate(items, text_only_predict, name="text_only (VADER)"))
     if scored_items:
-        print_report(evaluate(scored_items, llm_predict, name=f"gemini (n={len(scored_items)})"))
+        print_report(evaluate(scored_items, llm_predict, name=f"mistral (n={len(scored_items)})"))
 
     # has_complaint: the shipped pipeline has no such signal, so the only proxy
     # available today is "did we classify it net-negative?" — this is exactly
@@ -55,7 +55,7 @@ def main() -> None:
 
     if scored_items:
         gem = complaint_recall(scored_items, lambda it: llm_results[it["id"]].get("has_complaint", False))
-        print(f"Gemini native flag             precision={gem['precision']}  recall={gem['recall']}  "
+        print(f"Mistral native flag             precision={gem['precision']}  recall={gem['recall']}  "
               f"f1={gem['f1']}  (missed {gem['fn']} of {gem['support_true']} true complaints)")
 
 

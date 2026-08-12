@@ -10,8 +10,8 @@ import asyncio
 import json
 import sys
 
-from . import itunes, llm, report, store, themes
-from .analysis import actions_and_summary, build_insights, complaint_corpus_size, enrich_sentiment_llm, prepare
+from . import itunes, report, store
+from .analysis import apply_llm_upgrades, enrich_sentiment_llm, prepare
 
 
 async def _run(args: argparse.Namespace) -> int:
@@ -32,23 +32,21 @@ async def _run(args: argparse.Namespace) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 1
 
-    # No-op without GEMINI_API_KEY (or on any failure) — same graceful
+    # No-op without MISTRAL_API_KEY (or on any failure) — same graceful
     # fallback as the API, see analysis.enrich_sentiment_llm's docstring.
     reviews = await enrich_sentiment_llm(reviews)
     batch = store.save(app_id, args.country, info, reviews)
-    insights = build_insights(reviews)
 
-    if llm.api_key():
-        try:
-            llm_themes = await themes.llm_theme_analysis(reviews, app_id)
-            if llm_themes:
-                corpus_size = complaint_corpus_size(reviews)
-                actions, summary = actions_and_summary(insights["metrics"], insights["sentiment"],
-                                                        llm_themes, corpus_size)
-                insights.update(themes=llm_themes, actionable_insights=actions, summary=summary,
-                                themes_source="llm")
-        except llm.LLMError as exc:
-            print(f"note: LLM theme discovery unavailable ({exc}), using regex fallback", file=sys.stderr)
+    # Same keywords+themes LLM upgrade as the API (analysis.apply_llm_upgrades) —
+    # shared, not duplicated, so the two entry points can't silently drift.
+    insights = await apply_llm_upgrades(reviews, app_id)
+    if insights["keywords_source"] == "statistical" and insights["themes_source"] == "regex":
+        pass  # either no key, or both upgrades declined — nothing extra to report
+    else:
+        for label, source in [("keyword extraction", insights["keywords_source"]),
+                              ("theme discovery", insights["themes_source"])]:
+            if source in ("statistical", "regex"):
+                print(f"note: LLM {label} unavailable, used the deterministic fallback", file=sys.stderr)
 
     if args.out:
         with open(f"{args.out}.md", "w", encoding="utf-8") as fh:

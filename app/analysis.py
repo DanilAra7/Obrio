@@ -11,7 +11,9 @@ from typing import Any, Dict, Iterable, List, Sequence
 import httpx
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+from . import keywords as keywords_module
 from . import llm
+from . import themes as themes_module
 
 _ANALYZER = SentimentIntensityAnalyzer()
 
@@ -59,7 +61,7 @@ def prepare(reviews: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
     This is the deterministic, offline fallback path — VADER + rating, no
     network call, no API key required. It is what the API runs on by default
-    and what every review passes through first. If GEMINI_API_KEY is set,
+    and what every review passes through first. If MISTRAL_API_KEY is set,
     main.py additionally calls enrich_sentiment_llm() on top of this output
     to upgrade sentiment/has_complaint per review (see that function's
     docstring for why: it beat this baseline by a wide margin in eval/).
@@ -158,7 +160,7 @@ _LLM_BATCH_SIZE = 15
 
 async def enrich_sentiment_llm(reviews: List[Dict[str, Any]], batch_size: int = _LLM_BATCH_SIZE
                                ) -> List[Dict[str, Any]]:
-    """Upgrade prepare()'s VADER-derived sentiment/has_complaint with Gemini's
+    """Upgrade prepare()'s VADER-derived sentiment/has_complaint with Mistral's
     judgment, where available. Measured in eval/run_llm_eval.py against 150
     hand-labeled reviews: MAE 0.12 vs 0.43 for VADER, and — the reason this
     exists — has_complaint recall 1.00 vs 0.37 for the VADER-negative proxy
@@ -190,7 +192,7 @@ async def enrich_sentiment_llm(reviews: List[Dict[str, Any]], batch_size: int = 
                     continue
                 score = float(r["score"])
                 out[idx] = {**out[idx], "sentiment": to_label(score), "sentiment_score": round(score, 4),
-                           "has_complaint": bool(r.get("has_complaint", False)), "sentiment_source": "gemini"}
+                           "has_complaint": bool(r.get("has_complaint", False)), "sentiment_source": "mistral"}
     return out
 
 
@@ -402,7 +404,7 @@ def _shorten(text: str, width: int = 280) -> str:
 
 def theme_analysis(reviews: Sequence[Dict[str, Any]], max_quotes: int = 2) -> List[Dict[str, Any]]:
     """Regex-based fallback theme detection — always available, no API key
-    needed. When GEMINI_API_KEY is set, app/themes.py's LLM taxonomy replaces
+    needed. When MISTRAL_API_KEY is set, app/themes.py's LLM taxonomy replaces
     this in the API response (see app/main.py); this stays as the offline
     default and is what build_insights() uses on its own.
     """
@@ -464,10 +466,10 @@ def actions_and_summary(metrics: Dict[str, Any], sentiment: Dict[str, Any],
 
 def build_insights(reviews: Sequence[Dict[str, Any]]) -> Dict[str, Any]:
     """Deterministic, offline insights: VADER sentiment + log-odds keywords +
-    regex themes. Always available, no API key required. main.py additionally
-    tries to swap `themes`/`actionable_insights`/`summary` for the LLM
-    taxonomy pipeline (app/themes.py) when GEMINI_API_KEY is set, falling
-    back to exactly this output if that call fails.
+    regex themes. Always available, no API key required. apply_llm_upgrades()
+    below additionally tries to swap the keywords and themes for their LLM
+    counterparts when MISTRAL_API_KEY is set, falling back to exactly this
+    output if either call fails.
     """
     metrics = calculate_metrics(reviews)
     sentiment = sentiment_breakdown(reviews)
@@ -486,3 +488,44 @@ def build_insights(reviews: Sequence[Dict[str, Any]]) -> Dict[str, Any]:
         "themes_source": "regex",
         "keywords_source": "statistical",
     }
+
+
+async def apply_llm_upgrades(reviews: Sequence[Dict[str, Any]], app_id: Any) -> Dict[str, Any]:
+    """build_insights()'s deterministic output, upgraded in place with the
+    LLM keyword extraction and/or theme pipeline when MISTRAL_API_KEY is set.
+    The two upgrades are independent — keywords can succeed while themes
+    fails, or vice versa — and each falls back to the value build_insights()
+    already computed on any error. An LLM outage must degrade the response,
+    never break the caller.
+
+    Shared by app/main.py (API) and app/cli.py (standalone script) so the two
+    entry points can't silently drift — this used to be duplicated inline in
+    both, and the CLI's copy was missing the keywords upgrade entirely until
+    a live end-to-end run surfaced the gap (sample_report.md was silently
+    always statistical-keywords, never LLM, even with a working API key).
+    """
+    insights = build_insights(reviews)
+    if not llm.api_key():
+        return insights
+
+    try:
+        llm_kw = await keywords_module.llm_keywords(reviews)
+        if llm_kw:
+            insights["negative_keywords"] = llm_kw
+            insights["keywords_source"] = "llm"
+    except llm.LLMError:
+        pass
+
+    try:
+        llm_themes = await themes_module.llm_theme_analysis(reviews, app_id)
+    except llm.LLMError:
+        llm_themes = None
+    if llm_themes:
+        corpus_size = complaint_corpus_size(reviews)
+        actions, summary = actions_and_summary(insights["metrics"], insights["sentiment"], llm_themes, corpus_size)
+        insights["themes"] = llm_themes
+        insights["actionable_insights"] = actions
+        insights["summary"] = summary
+        insights["themes_source"] = "llm"
+
+    return insights

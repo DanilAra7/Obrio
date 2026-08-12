@@ -11,9 +11,8 @@ from fastapi import FastAPI, HTTPException, Path, Query
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 from pydantic import BaseModel, Field
 
-from . import itunes, keywords, llm, report, store, themes
-from .analysis import (actions_and_summary, build_insights, calculate_metrics, complaint_corpus_size,
-                       enrich_sentiment_llm, prepare, sentiment_breakdown)
+from . import itunes, report, store
+from .analysis import apply_llm_upgrades, calculate_metrics, enrich_sentiment_llm, prepare, sentiment_breakdown
 
 app = FastAPI(
     title="Apple Store Review Analysis API",
@@ -63,47 +62,11 @@ async def _collect(app_id: Optional[int], app_name: Optional[str], country: str,
     info = await itunes.lookup_app(app_id, country=country)
     raw = await itunes.fetch_reviews(app_id, country=country, limit=limit, sort=sort, seed=seed)
     reviews = prepare(raw)
-    # No-op if GEMINI_API_KEY isn't set (returns the VADER-scored reviews
+    # No-op if MISTRAL_API_KEY isn't set (returns the VADER-scored reviews
     # unchanged) — see enrich_sentiment_llm's docstring for why this upgrade
     # is worth it when a key is available: has_complaint recall 1.00 vs 0.37.
     reviews = await enrich_sentiment_llm(reviews)
     return store.save(app_id, country, info, reviews)
-
-
-async def _apply_llm_upgrades(reviews: List[Dict[str, Any]], app_id: int) -> Dict[str, Any]:
-    """build_insights()'s deterministic output (VADER-derived sentiment
-    already baked into `reviews` by _collect, regex themes, statistical
-    keywords), upgraded in place with the LLM keyword extraction and/or
-    theme pipeline when GEMINI_API_KEY is set. The two upgrades are
-    independent — keywords can succeed while themes fails, or vice versa —
-    and each falls back to the value `build_insights` already computed on
-    any error. An LLM outage must degrade the response, never break the
-    endpoint."""
-    insights = build_insights(reviews)
-    if not llm.api_key():
-        return insights
-
-    try:
-        llm_kw = await keywords.llm_keywords(reviews)
-        if llm_kw:
-            insights["negative_keywords"] = llm_kw
-            insights["keywords_source"] = "llm"
-    except llm.LLMError:
-        pass
-
-    try:
-        llm_themes = await themes.llm_theme_analysis(reviews, app_id)
-    except llm.LLMError:
-        llm_themes = None
-    if llm_themes:
-        corpus_size = complaint_corpus_size(reviews)
-        actions, summary = actions_and_summary(insights["metrics"], insights["sentiment"], llm_themes, corpus_size)
-        insights["themes"] = llm_themes
-        insights["actionable_insights"] = actions
-        insights["summary"] = summary
-        insights["themes_source"] = "llm"
-
-    return insights
 
 
 async def _batch(app_id: int, country: str, limit: int = 100, refresh: bool = False) -> Dict[str, Any]:
@@ -179,7 +142,7 @@ async def insights(
 ) -> Dict[str, Any]:
     batch = await _batch(app_id, country, limit, refresh)
     return {"app": batch["app"], "collected_at": batch["collected_at"],
-            **await _apply_llm_upgrades(batch["reviews"], app_id)}
+            **await apply_llm_upgrades(batch["reviews"], app_id)}
 
 
 @app.get("/apps/{app_id}/reviews", tags=["analysis"], summary="Download the raw collected reviews (JSON or CSV)")
@@ -224,5 +187,5 @@ async def html_report(
     refresh: bool = Query(False),
 ) -> HTMLResponse:
     batch = await _batch(app_id, country, limit, refresh)
-    insights = await _apply_llm_upgrades(batch["reviews"], app_id)
+    insights = await apply_llm_upgrades(batch["reviews"], app_id)
     return HTMLResponse(report.render_html(batch, insights))

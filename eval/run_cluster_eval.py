@@ -1,7 +1,7 @@
 """Live smoke-test of the production theme pipeline (app/themes.py — embed,
 cluster, LLM-merge, name+recommend) against the real labeled Nebula corpus.
 
-This is what /apps/{id}/insights actually runs when GEMINI_API_KEY is set;
+This is what /apps/{id}/insights actually runs when MISTRAL_API_KEY is set;
 running it here separately makes it easy to inspect the raw output and
 re-verify the numbers quoted in the README (99/101 coverage, 0 hallucinated
 citations) without spinning up the API.

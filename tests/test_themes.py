@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app import themes
-from app.themes import _candidate_pairs, _UnionFind, name_and_recommend, verify_citations
+from app.themes import _candidate_pairs, _UnionFind, merge_clusters, name_and_recommend, verify_citations
 
 
 # --------------------------------------------------------------------------- #
@@ -111,13 +111,48 @@ def test_candidate_pairs_empty_when_nothing_in_band():
 
 
 # --------------------------------------------------------------------------- #
+# merge_clusters()'s MAX_THEME_SHARE safety net
+# --------------------------------------------------------------------------- #
+def test_merge_clusters_refuses_a_merge_that_would_form_a_mega_cluster(monkeypatch):
+    """Regression test for a real failure seen live: an overly agreeable LLM
+    merge judgment ("same theme": true for nearly every candidate pair)
+    chained transitively through union-find into one cluster covering 90 of
+    101 reviews — the exact opposite of what strict clustering exists to
+    prevent. This mocks llm.call to say "yes" to EVERY pair (the worst case)
+    on clusters crafted so unrestricted merging would blow past
+    MAX_THEME_SHARE, and asserts the size cap holds regardless of what the
+    LLM says — it's a math-level check, not dependent on prompt tuning."""
+    # 6 clusters of 4 reviews each = 24 total. All pairwise similarities are
+    # placed inside the candidate band so every pair gets judged.
+    n_clusters, size = 6, 4
+    clusters = [[{"id": f"c{c}r{r}", "title": "", "text": ""} for r in range(size)] for c in range(n_clusters)]
+    ids = [rev["id"] for c in clusters for rev in c]
+    band_sim = (themes.CANDIDATE_LOW + themes.CLUSTER_THRESHOLD) / 2
+    n = len(ids)
+    matrix = [[1.0 if i == j else band_sim for j in range(n)] for i in range(n)]
+    # only inter-cluster pairs matter for cluster_pair_similarity; identical
+    # placeholder ids per cluster make intra-cluster entries irrelevant here.
+
+    async def always_same_theme(system, payload, schema, **kwargs):
+        return {"decisions": [{"pair_id": p["pair_id"], "same_theme": True, "reason": "yes"} for p in payload]}
+
+    monkeypatch.setattr(themes.llm, "call", always_same_theme)
+    merged = asyncio.run(merge_clusters(clusters, matrix, ids))
+
+    max_allowed = themes.MAX_THEME_SHARE * (n_clusters * size)
+    assert max(len(c) for c in merged) <= max_allowed
+    # confirms it's not a no-op either — some merging still happened
+    assert len(merged) < n_clusters
+
+
+# --------------------------------------------------------------------------- #
 # name_and_recommend()'s output shape — the real function, network mocked
 # --------------------------------------------------------------------------- #
 def test_name_and_recommend_output_has_every_field_downstream_needs(monkeypatch):
     """Regression test: name_and_recommend() previously omitted
     share_of_negative, which both analysis.actions_and_summary() and
     report.py read directly (t["share_of_negative"]) — a KeyError that
-    reached a live end-to-end run (main.py -> real Gemini call) undetected,
+    reached a live end-to-end run (main.py -> real Mistral call) undetected,
     because every other test mocked llm_theme_analysis()/llm.call() at a
     level that let a hand-written "expected" shape stand in for the real
     one. This test calls the actual name_and_recommend(), mocking only the

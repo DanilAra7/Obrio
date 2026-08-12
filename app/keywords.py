@@ -1,6 +1,6 @@
-"""LLM-as-judge keyword/phrase extraction — the GEMINI_API_KEY-enabled
+"""LLM-as-judge keyword/phrase extraction — the MISTRAL_API_KEY-enabled
 upgrade over analysis.py's log-odds statistical method, mirroring the same
-two-path pattern as sentiment (VADER vs Gemini) and themes (regex vs LLM
+two-path pattern as sentiment (VADER vs Mistral) and themes (regex vs LLM
 clustering).
 
 Why this exists alongside the statistical method rather than replacing it:

@@ -1,4 +1,4 @@
-"""LLM-based sentiment scorer (Gemini) — Trek A candidate to replace/augment
+"""LLM-based sentiment scorer (Mistral) — Trek A candidate to replace/augment
 the VADER+rating blend in app/analysis.py.
 
 Design choices (see session discussion):
@@ -15,6 +15,12 @@ Design choices (see session discussion):
     instead of a silently wrong 0.0 — callers decide the fallback policy
     (see app-side integration, which falls back to the VADER blend).
 
+Reuses app.llm.call() for the actual network call (retries, auth, schema
+enforcement) rather than maintaining a second HTTP client — this module adds
+only what's specific to evaluation: confidence/reason fields (useful for
+eyeballing model reasoning, not needed in production), a disk cache, and
+per-batch error tolerance instead of raising.
+
     python -m eval.llm_sentiment --pool eval/data/pool.json --out eval/data/llm_scores.json
 """
 
@@ -24,24 +30,16 @@ import argparse
 import asyncio
 import hashlib
 import json
-import os
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 
-import httpx
-
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from eval.env import load_env  # noqa: E402
+from app import llm  # noqa: E402
 
-load_env()
-
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-flash-latest")
-API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
 PROMPT_VERSION = "v2"  # v2 adds has_complaint — bumped so v1 cache entries aren't reused
 BATCH_SIZE = 15
-MAX_RETRIES = 4
 CACHE_PATH = Path(__file__).parent / "data" / "llm_cache.json"
 
 SYSTEM_PROMPT = """You are scoring App Store review sentiment for a product-analytics pipeline
@@ -98,7 +96,7 @@ class LLMScorerError(Exception):
 
 
 def _cache_key(review_id: str) -> str:
-    raw = f"{PROMPT_VERSION}:{MODEL}:{review_id}"
+    raw = f"{PROMPT_VERSION}:{llm.MODEL}:{review_id}"
     return hashlib.sha256(raw.encode()).hexdigest()[:24]
 
 
@@ -119,48 +117,20 @@ def _batches(items: List[dict], size: int) -> List[List[dict]]:
     return [items[i:i + size] for i in range(0, len(items), size)]
 
 
-async def _call_gemini(client: httpx.AsyncClient, api_key: str, batch: List[dict]) -> Dict[str, dict]:
-    payload = {
-        "system_instruction": {"parts": [{"text": SYSTEM_PROMPT}]},
-        "contents": [{"role": "user", "parts": [{"text": json.dumps(
-            [{"id": it["id"], "title": it.get("title", ""), "text": it.get("text", "")} for it in batch],
-            ensure_ascii=False,
-        )}]}],
-        "generationConfig": {
-            "temperature": 0,
-            "responseMimeType": "application/json",
-            "responseSchema": RESPONSE_SCHEMA,
-        },
-    }
-
-    last_error: Optional[Exception] = None
-    for attempt in range(MAX_RETRIES):
-        try:
-            response = await client.post(API_URL, params={"key": api_key}, json=payload, timeout=60.0)
-            if response.status_code == 429 or response.status_code >= 500:
-                raise LLMScorerError(f"HTTP {response.status_code}: {response.text[:200]}")
-            response.raise_for_status()
-            body = response.json()
-            text = body["candidates"][0]["content"]["parts"][0]["text"]
-            parsed = json.loads(text)
-            return {r["id"]: r for r in parsed["results"]}
-        except (httpx.HTTPError, LLMScorerError, KeyError, IndexError, json.JSONDecodeError) as exc:
-            last_error = exc
-            if attempt < MAX_RETRIES - 1:
-                await asyncio.sleep(2 ** attempt)  # 1s, 2s, 4s, 8s
-    raise LLMScorerError(f"Gemini call failed after {MAX_RETRIES} attempts: {last_error}")
+async def _score_batch(batch: List[dict]) -> Dict[str, dict]:
+    payload = [{"id": it["id"], "title": it.get("title", ""), "text": it.get("text", "")} for it in batch]
+    parsed = await llm.call(SYSTEM_PROMPT, payload, RESPONSE_SCHEMA)
+    return {r["id"]: r for r in parsed["results"]}
 
 
-async def score_items(items: List[dict], api_key: Optional[str] = None,
-                      batch_size: int = BATCH_SIZE, use_cache: bool = True) -> Dict[str, dict]:
+async def score_items(items: List[dict], batch_size: int = BATCH_SIZE, use_cache: bool = True) -> Dict[str, dict]:
     """Score a list of {id, title, text} dicts. Returns {id: {score, confidence, reason, source}}.
 
     Cached results are reused; only uncached ids hit the API. Items whose batch
     fails after retries get {"error": "..."} instead of a fabricated score —
     the caller decides whether to fall back (see app-side wiring)."""
-    api_key = api_key or os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise LLMScorerError("GEMINI_API_KEY not set (env var or .env file)")
+    if not llm.api_key():
+        raise LLMScorerError("MISTRAL_API_KEY not set (env var or .env file)")
 
     cache = _load_cache() if use_cache else {}
     results: Dict[str, dict] = {}
@@ -172,28 +142,26 @@ async def score_items(items: List[dict], api_key: Optional[str] = None,
         else:
             to_fetch.append(it)
 
-    if to_fetch:
-        async with httpx.AsyncClient() as client:
-            for batch in _batches(to_fetch, batch_size):
-                try:
-                    batch_result = await _call_gemini(client, api_key, batch)
-                except LLMScorerError as exc:
-                    for it in batch:
-                        results[it["id"]] = {"error": str(exc)}
-                    continue
-                for it in batch:
-                    r = batch_result.get(it["id"])
-                    if r is None:
-                        results[it["id"]] = {"error": "missing from LLM response"}
-                        continue
-                    entry = {"score": float(r["score"]), "has_complaint": bool(r.get("has_complaint", False)),
-                             "confidence": float(r.get("confidence", 0.5)),
-                             "reason": r.get("reason", ""), "source": "gemini"}
-                    results[it["id"]] = entry
-                    if use_cache:
-                        cache[_cache_key(it["id"])] = entry
-        if use_cache:
-            _save_cache(cache)
+    for batch in _batches(to_fetch, batch_size):
+        try:
+            batch_result = await _score_batch(batch)
+        except llm.LLMError as exc:
+            for it in batch:
+                results[it["id"]] = {"error": str(exc)}
+            continue
+        for it in batch:
+            r = batch_result.get(it["id"])
+            if r is None:
+                results[it["id"]] = {"error": "missing from LLM response"}
+                continue
+            entry = {"score": float(r["score"]), "has_complaint": bool(r.get("has_complaint", False)),
+                     "confidence": float(r.get("confidence", 0.5)),
+                     "reason": r.get("reason", ""), "source": "mistral"}
+            results[it["id"]] = entry
+            if use_cache:
+                cache[_cache_key(it["id"])] = entry
+    if to_fetch and use_cache:
+        _save_cache(cache)
 
     return results
 

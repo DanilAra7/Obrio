@@ -1,125 +1,87 @@
 [
   {
-    "theme": "Deceptive Subscription Billing",
-    "description": "Users report unexpected recurring billing, hidden subscription terms after low-cost trials, and difficulty canceling charges.",
-    "negative_reviews": 31,
-    "share_of_negative": 30.69,
-    "avg_rating": 1.58,
-    "recommendation": "Provide clear billing disclosures during trial signup and add an easy in-app subscription cancellation option.",
+    "theme": "Deceptive billing practices",
+    "description": "Multiple users report being charged unauthorized fees, often without clear trial terms or cancellation options, leading to frustration and financial loss.",
+    "negative_reviews": 27,
+    "share_of_negative": 26.73,
+    "avg_rating": 1.56,
+    "recommendation": "Implement transparent billing practices by clearly disclosing trial terms, providing easy cancellation options within the app, and ensuring all charges are explicitly authorized by the user.",
     "sample_quotes": [
-      "All I wanted was the “report” they said would be sent to me for a $1. That was all I wanted and signed up for. A week later I had a charge for $45 and when I asked for a refund they informed me I should have been aware of the subscription since it was sent to me in another email ",
-      "They'll give u some useless knowledge and none of it is true and they'll lure u in with a single $1 payment then once u download their app n start using it a lil bit just before u find out it's useless and that they be stealing people's money they'll charge ur card with a 50$ cha"
+      "I downloaded this app and did the three day trial and when I realize after you go through the quiz and it charges you for the report at the end, I decided to cancel my subscription and delete the app. Little did I know after checking my credit card statement that this app charged",
+      "Their free trial is a full online. They do not give you three free days from the moment that you agree to download the app and try it out they charge your card. Then on day three when you go to cancel it you can't because it already went through for the premium three months of $4"
     ],
     "cited_review_ids": [
-      "11778501799",
-      "13662842459",
-      "13372038470",
-      "12425546530"
+      "10724895815",
+      "8513750329",
+      "12425546530",
+      "13372038470"
     ],
     "citations_valid": true
   },
   {
-    "theme": "Paywalled Core Features",
-    "description": "Long-term users complain that essential features like full birth charts and horoscopes have been moved behind strict paywalls.",
-    "negative_reviews": 17,
-    "share_of_negative": 16.83,
-    "avg_rating": 2.0,
-    "recommendation": "Reintroduce basic free access or ad-supported unlocks for core birth charts and daily horoscopes.",
+    "theme": "Excessive ads and paywalls",
+    "description": "Users express frustration with intrusive ads, locked features, and a shift from a free-to-use model to aggressive monetization, making the app less enjoyable or functional.",
+    "negative_reviews": 19,
+    "share_of_negative": 18.81,
+    "avg_rating": 2.32,
+    "recommendation": "Introduce a tiered subscription model with optional ad-free experiences and clearly labeled free vs. paid features, while reducing ad frequency in the free version to improve user experience.",
     "sample_quotes": [
-      "When I first began to use this app, it was much simpler. There were no “psychics” being advertised, etc. There were parts of the app where you still had to make purchases... Like, for another days horoscope besides today's(free) and Compatibility was similar in purchases. You cou",
-      "you can't even see your birth chart without paying . quite greedy what they've done with it , i've been using since 2021 and i deleted it today . you can find exactly what they're offering for free online"
+      "I love this app, easily my favorite astrology app, and I actually much prefer the graphics and aesthetic over other apps, ones that rhyme with MoStar. HOWEVER, there are waaay too many ads for the paid services within the app. I sometimes get like four in a row, all trying to adv",
+      "I downloaded this app because I was trying different astrology apps after learning that co-star was not the best one to use for a couple of different reasons. This was the second app I tried and I liked the layout at first but then I started looking further through my chart and n"
     ],
     "cited_review_ids": [
-      "11534016364",
-      "14217246329",
-      "11422847227",
-      "13839528993"
+      "7550731888",
+      "6855705684",
+      "11164615798",
+      "11422847227"
     ],
     "citations_valid": true
   },
   {
-    "theme": "App Content Reliability",
-    "description": "Users encounter chart calculation errors, contradicting daily insights, grammar typos, and chat session timeouts.",
-    "negative_reviews": 16,
-    "share_of_negative": 15.84,
-    "avg_rating": 3.38,
-    "recommendation": "Audit reading generation logic to prevent contradictory daily horoscopes and fix communication timeouts in live sessions.",
+    "theme": "Psychic chat glitches and high costs",
+    "description": "Users report technical issues with psychic chat features, such as one-way audio or timeouts, and criticize the high cost of psychic readings, which often feel exploitative.",
+    "negative_reviews": 19,
+    "share_of_negative": 18.81,
+    "avg_rating": 2.26,
+    "recommendation": "Improve the reliability of chat features, implement fair pricing for psychic services, and offer refunds or credits for failed or unsatisfactory sessions.",
     "sample_quotes": [
-      "I love this app! The information that was provided about our day, week, month, and year has been decently accurate so far. The problem is is that the app sometimes doesn't work on me where it would say “Something went wrong… Please try again” every now and then (a common occuranc",
-      "This is an interesting app, but it was unable to calculate my natal chart accurately (ascendant sign is incorrect) and despite much back and forth with customer support, they were unable to correct the issue. I will say that I was very happy with the accuracy and professionalism "
+      "I really liked someone the psychic I met on here there's like two or three that stand out to me the most but my problem is mostly on the app side of things because it's a lot of bugs and I'll explain one of them the main one is that when you do a call is that they can hear you wh",
+      "I have been using the app for a little while now and I think it is very accurate with the information it provides. I also think the free features that you are allowed to use are also really great and accurate and informational. However, one of the features in the app that you hav"
     ],
     "cited_review_ids": [
+      "14288569623",
+      "11531987668",
+      "14151631956",
+      "13224639951"
+    ],
+    "citations_valid": true
+  },
+  {
+    "theme": "Inaccurate astrological data",
+    "description": "Reviews highlight issues with birth chart calculations, zodiac sign assignments, and horoscope accuracy, leading to distrust in the app's core functionality.",
+    "negative_reviews": 12,
+    "share_of_negative": 11.88,
+    "avg_rating": 2.83,
+    "recommendation": "Audit and correct astrological calculations, including zodiac date ranges and chart interpretations, and implement user feedback to improve accuracy and transparency.",
+    "sample_quotes": [
+      "So my birthday is August 23rd, which I know is on a cusp. However, in the app it says August 23rd is a Virgo, yet it says I am a Leo in the app. I understand the whole cusp thing gives me qualities of both, but in the app it lists the beginning of Virgo as August 23rd, but yet it",
+      "The reason I give this 2 stars is because I believe just for an app it is asking very personal questions about me that I don't believe I need to share. Nevertheless, I did it anyway. When I was trying to put my boyfriend's birth date to the compatibility thing it wasn't letting m"
+    ],
+    "cited_review_ids": [
+      "4761806406",
+      "12481846751",
       "10670208225",
-      "14268611351",
-      "6942384343",
-      "14288569623"
-    ],
-    "citations_valid": true
-  },
-  {
-    "theme": "Predatory Reading Monetization",
-    "description": "Users feel scammed by generic automated readings, fast-expiring chat credits, and misleading promises of personalized reports.",
-    "negative_reviews": 14,
-    "share_of_negative": 13.86,
-    "avg_rating": 1.86,
-    "recommendation": "Increase preview transparency for paid readings and extend credit expiration periods for live psychic chats.",
-    "sample_quotes": [
-      "I downloaded this app via instagram ad. I believe the partner comparability was accurate . I wouldn't use the tarot readings that are advertised. They take your $$$. You have to pay $10 for a 100 coins that expires within 2 mins. I spent around $20-$30 and still didn't get many a",
-      "They send you *guides* in response to your inquiries, not the reports they promise. Nothing is customized and you have to pay for customized insights. I was told I'd have access to the guide I paid a few dollars for after canceling my trial subscription (which they didn't tell me"
-    ],
-    "cited_review_ids": [
-      "10765562123",
-      "12088937944",
-      "12128935792",
-      "11959224480"
-    ],
-    "citations_valid": true
-  },
-  {
-    "theme": "Repetitive Content and Bugs",
-    "description": "Users experience stale and recycled yearly horoscopes, non-responsive home screen widgets, and unhelpful style content.",
-    "negative_reviews": 8,
-    "share_of_negative": 7.92,
-    "avg_rating": 2.75,
-    "recommendation": "Refresh the horoscope content library annually and fix the blank home screen widget bug.",
-    "sample_quotes": [
-      "I really like the accuracy and different features of this app, but I have had it for 3 weeks now and have had some of the same recurring issues. I never know when the app will connect. It will either keep me on the spinning “Nebula” screen or tell me that something is wrong and t",
-      "I love this app, it is super accurate and very helpful. However, when I scroll to the bottom for style advice, I am constantly reminded that I am not white. What I mean is that the hair advice is usually for individuals with straight hair—and now only “colored hair” for some reas"
-    ],
-    "cited_review_ids": [
-      "7547129421",
-      "8889922205",
-      "10480005089",
       "8618841231"
     ],
     "citations_valid": true
   },
   {
-    "theme": "Intrusive Advertising Experience",
-    "description": "Excessive pop-up ads interrupt user navigation and make basic features practically unusable for free tier users.",
-    "negative_reviews": 5,
-    "share_of_negative": 4.95,
-    "avg_rating": 2.4,
-    "recommendation": "Implement ad frequency capping and remove mid-navigation pop-up loops.",
-    "sample_quotes": [
-      "I downloaded this app because I was trying different astrology apps after learning that co-star was not the best one to use for a couple of different reasons. This was the second app I tried and I liked the layout at first but then I started looking further through my chart and n",
-      "This app is amazing, I like it even better than co-star. They need to add a spiritual reading for daily strengths. This app would be perfect but the free version makes you watch Adds before seeing your daily reading. The adds run on and on and sometimes before they are finished r"
-    ],
-    "cited_review_ids": [
-      "6855705684",
-      "11164615798",
-      "7685390341",
-      "6147313801"
-    ],
-    "citations_valid": true
-  },
-  {
-    "theme": "Inclusive Gender Options",
-    "description": "Users feel excluded or mischaracterized due to binary gender selections and a lack of non-binary options or custom preference settings.",
-    "negative_reviews": 3,
-    "share_of_negative": 2.97,
-    "avg_rating": 3.33,
-    "recommendation": "Add non-binary and custom gender options, neutral pronoun support, and configurable orientation preferences in user profiles.",
+    "theme": "Lack of gender inclusivity",
+    "description": "Users criticize the app for only offering binary gender options (male/female), which excludes non-binary, genderfluid, and intersex individuals, and fails to respect diverse identities in its content.",
+    "negative_reviews": 4,
+    "share_of_negative": 3.96,
+    "avg_rating": 3.25,
+    "recommendation": "Add customizable gender options (e.g., non-binary, genderfluid, intersex) and allow users to select neutral pronouns (e.g., they/them) to ensure inclusivity in both profile settings and content generation.",
     "sample_quotes": [
       "It's a nice app but my only issue is the gender selection it is only male and female. There are far more genders than two and if you disagree go ask a scientist. Anyways there should be at least an other choice or maybe custom option. Also as afab (a female at birth I put female ",
       "I have yet to explore the app, because I do not have the option that best suits me in the gender question. I would like to know whether or not that question is about someone's gender or sex (what the doctor calls out, reproductive organs). Though, even if it was about someone's s"
@@ -127,17 +89,72 @@
     "cited_review_ids": [
       "6732871614",
       "6468487974",
+      "6118608677",
       "7480629840"
     ],
     "citations_valid": true
   },
   {
-    "theme": "Age Verification Errors",
-    "description": "Users aged 16 and 17 are blocked from setting their real birth date despite the app store age rating.",
+    "theme": "Palmistry feature failures",
+    "description": "Users encounter errors when accessing palmistry readings, including broken links, unfulfilled reports, and subscription issues tied to web-based billing.",
+    "negative_reviews": 3,
+    "share_of_negative": 2.97,
+    "avg_rating": 2.33,
+    "recommendation": "Fix technical issues with palmistry readings, ensure subscription cancellations are honored, and provide clear instructions for accessing paid features across platforms.",
+    "sample_quotes": [
+      "I tried multiple times to access the palmistry reading and it just wouldn't load. You can't find it on the app either only on the website and when you try to contact someone about that you are directed to an ai bot that just directs you to articles that doesn't really help. Didn'",
+      "I saw an ad on Instagram to take a quiz and get a palmistry and witch power reading for fun. I went through the quiz and paid $1 for my result. Turns out I was enrolled to be billed WEEKLY for $45 and there was no option to turn off the subscription through my iPhone because they"
+    ],
+    "cited_review_ids": [
+      "12097441238",
+      "11975231543",
+      "12993175408"
+    ],
+    "citations_valid": true
+  },
+  {
+    "theme": "Outdated or recycled horoscopes",
+    "description": "Users notice that horoscopes are outdated or recycled from previous months/years, undermining the app's credibility and value.",
+    "negative_reviews": 3,
+    "share_of_negative": 2.97,
+    "avg_rating": 2.33,
+    "recommendation": "Update horoscopes regularly to reflect the current month/year and ensure fresh, relevant content for all users, including free and paid tiers.",
+    "sample_quotes": [
+      "I just bought this app no more than a minute ago and was going through everything. I swiped over to the month horoscope and it says August for two of the categorizes. It's in “love and relationships” and “health.” I kinda seems to me they just copy and paste and forgot to switch ",
+      "I used to like how the horoscopes were done and it felt more connected to the your birth chart and the current moon. However, I have noticed in the last month that they are recycling horoscope. It started with me feel like deja vu, but today it literally says “you should consider"
+    ],
+    "cited_review_ids": [
+      "4798717628",
+      "11455320841",
+      "5374075296"
+    ],
+    "citations_valid": true
+  },
+  {
+    "theme": "Aggressive ad frequency",
+    "description": "Users complain about ads appearing too frequently, disrupting the app experience and making it difficult to use even basic features.",
+    "negative_reviews": 3,
+    "share_of_negative": 2.97,
+    "avg_rating": 2.0,
+    "recommendation": "Reduce ad frequency in the free version and allow users to opt out of ads via subscription, while ensuring ads are relevant and non-intrusive.",
+    "sample_quotes": [
+      "The ads for one downloadable feature or stickers or something arbitrary one day became pop up annoyances, I can handle the typical pop up ad window and watch some bs clip of some bs product I'm never gonna consider buying a couple dozen times a day, without question, I've even en",
+      "I'd consider getting a subscription if there weren't ads literally every 10 seconds, it makes the app impossible to use and it's just tacky Edit: I never said there should be no ads, but you're 100% driving away customers when you make the free version literally impossible to use"
+    ],
+    "cited_review_ids": [
+      "6147313801",
+      "7685390341",
+      "14160535543"
+    ],
+    "citations_valid": true
+  },
+  {
+    "theme": "Age restriction issues",
+    "description": "Users report being unable to input their correct age due to app restrictions, particularly for younger users or those trying to set up accounts for others.",
     "negative_reviews": 2,
     "share_of_negative": 1.98,
     "avg_rating": 2.5,
-    "recommendation": "Update the in-app age validation logic to accept user birth years matching the 16+ App Store rating.",
+    "recommendation": "Allow users to input any age for astrological purposes (e.g., for friends or family) and clarify age restrictions in the app store listing to avoid confusion.",
     "sample_quotes": [
       "couldnt even put in my actual birthday it refused to take it even thouhj im 17 🫩",
       "The app says 16+ on the app store, although it won't let me click my age because I am not over 18."
@@ -145,6 +162,23 @@
     "cited_review_ids": [
       "14190158250",
       "14165380312"
+    ],
+    "citations_valid": true
+  },
+  {
+    "theme": "Unreliable psychic readings",
+    "description": "Users express dissatisfaction with psychic readings, citing incorrect information, unresponsive psychics, or feelings of being misled by vague or generic advice.",
+    "negative_reviews": 2,
+    "share_of_negative": 1.98,
+    "avg_rating": 3.0,
+    "recommendation": "Improve the vetting process for psychics, offer refunds for inaccurate readings, and provide clear guidelines for what users can expect from paid sessions.",
+    "sample_quotes": [
+      "I've used Nebula off and on for several years. The readings I have received have been so so, I quit using Nebula because it didn't seem it was worth what I was paying. I'm back now and hoping for a better experience since it's been a year or so. So far I have received the beginni",
+      "I did not have a good reading, and I wish I could have my credits back. It was a waste of time for me because he kept saying things like Mars is here and it's making you feel this way isn't that true? And that would be incorrect, because I feel super calm. And a couple more like "
+    ],
+    "cited_review_ids": [
+      "14012721254",
+      "10853403359"
     ],
     "citations_valid": true
   }

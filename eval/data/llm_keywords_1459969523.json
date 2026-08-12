@@ -1,161 +1,220 @@
 [
   {
-    "term": "everything is locked behind paywall",
-    "count": 10,
-    "share_of_corpus": 9.9,
+    "term": "charged without permission",
+    "count": 12,
+    "share_of_corpus": 11.9,
     "example_review_ids": [
-      "11534016364",
-      "12338461977",
-      "11951237158",
-      "12662413604",
-      "10987603034",
-      "12065084419",
-      "11422847227",
+      "14159682459",
+      "14141804638",
+      "13662842459",
       "12430189347",
-      "10514991091",
-      "14217246329"
+      "10772121437",
+      "11975231543",
+      "10545461808",
+      "12425546530",
+      "13372038470",
+      "10085591211",
+      "11678926060",
+      "7442976997"
     ],
-    "example_quote": "literally EVERYTHING is locked behind a paywall besides very basic info",
+    "example_quote": "They tried to charge my card without my permission so now I had to cancel my card to get a new one now I'm very upset because the fact that the app tried to process a $45 payment without my permission that is unacceptable.",
     "hallucinated_citations_dropped": 0
   },
   {
-    "term": "unexpected recurring subscription charges",
+    "term": "unexpected charges after trial",
     "count": 10,
     "share_of_corpus": 9.9,
     "example_review_ids": [
       "10745745062",
-      "11778501799",
-      "11975231543",
-      "10545461808",
-      "12425546530",
-      "13662842459",
-      "14159682459",
-      "14141804638",
-      "7442976997",
-      "7707646549"
-    ],
-    "example_quote": "without my knowing due to a lack of clear communication on Nebula's end, opting in to a recurring charge of $19 every 2 weeks.",
-    "hallucinated_citations_dropped": 0
-  },
-  {
-    "term": "poor customer support",
-    "count": 9,
-    "share_of_corpus": 8.9,
-    "example_review_ids": [
-      "10724895815",
       "11567324993",
-      "14150825254",
-      "12895500790",
-      "14284892659",
-      "11975231543",
-      "14147885035",
-      "7442976997",
-      "5343426366"
-    ],
-    "example_quote": "Can't get thru to customer service or get anyone to acknowledge my reaching out.",
-    "hallucinated_citations_dropped": 0
-  },
-  {
-    "term": "charged after cancelling subscription",
-    "count": 8,
-    "share_of_corpus": 7.9,
-    "example_review_ids": [
+      "12616474807",
+      "11951237158",
+      "12662413604",
+      "11778501799",
       "10724895815",
-      "14150825254",
-      "12895500790",
-      "14284892659",
-      "10554353137",
-      "14147885035",
-      "13372038470",
-      "14202123733"
+      "12065084419",
+      "11534016364",
+      "11558153885"
     ],
-    "example_quote": "I cancelled this membership but they are still charging me.",
+    "example_quote": "I downloaded this app and did the three day trial and when I realize after you go through the quiz and it charges you for the report at the end, I decided to cancel my subscription and delete the app.",
     "hallucinated_citations_dropped": 0
   },
   {
     "term": "too many ads",
-    "count": 7,
-    "share_of_corpus": 6.9,
+    "count": 8,
+    "share_of_corpus": 7.9,
     "example_review_ids": [
       "7550731888",
       "6855705684",
-      "9900490763",
-      "6147313801",
       "7685390341",
       "11164615798",
+      "6147313801",
+      "13296102891",
+      "14160535543",
       "11422847227"
     ],
-    "example_quote": "there are waaay too many ads for the paid services within the app.",
+    "example_quote": "I'd consider getting a subscription if there weren't ads literally every 10 seconds, it makes the app impossible to use and it's just tacky.",
     "hallucinated_citations_dropped": 0
   },
   {
-    "term": "charged immediately during free trial",
+    "term": "everything behind paywall",
+    "count": 7,
+    "share_of_corpus": 6.9,
+    "example_review_ids": [
+      "11951237158",
+      "11534016364",
+      "12065084419",
+      "13839528993",
+      "12430189347",
+      "14217246329",
+      "11558153885"
+    ],
+    "example_quote": "I was looking for an easy app to use to have my birth chart information organized in a way that's easy to read and navigate, there are plenty of websites that give you all this information for free, apps are just more convenient.",
+    "hallucinated_citations_dropped": 0
+  },
+  {
+    "term": "support never responded",
     "count": 6,
     "share_of_corpus": 5.9,
     "example_review_ids": [
       "11567324993",
-      "12616474807",
-      "8268427566",
-      "11959224480",
-      "10085591211",
-      "8513750329"
+      "14284892659",
+      "12088937944",
+      "11455320841",
+      "14147885035",
+      "11647367428"
     ],
-    "example_quote": "when I clicked the free trial it immediately charged me the year price.",
+    "example_quote": "I have emailed support several times with only an automatic response saying “ticket closed due to lack of information.”",
     "hallucinated_citations_dropped": 0
   },
   {
-    "term": "psychic chat is too expensive",
+    "term": "scam app",
     "count": 6,
     "share_of_corpus": 5.9,
     "example_review_ids": [
-      "11531987668",
-      "14151631956",
-      "12825163983",
-      "12439445085",
-      "10765562123",
-      "12418894798"
+      "10724895815",
+      "12338461977",
+      "12088937944",
+      "12425546530",
+      "13662842459",
+      "14217246329"
     ],
-    "example_quote": "you get charged a crazy amount for one minute each and you end up having to spend a lot more in order to finish one reading.",
+    "example_quote": "This app is a scam and I scoffed at nearly everything this app was giving.",
     "hallucinated_citations_dropped": 0
   },
   {
-    "term": "repetitive and recycled horoscopes",
+    "term": "charged multiple times",
     "count": 5,
     "share_of_corpus": 5.0,
     "example_review_ids": [
-      "4798717628",
-      "11455320841",
-      "8618841231",
-      "10480005089",
-      "11647367428"
+      "10724895815",
+      "10745745062",
+      "12616474807",
+      "12895500790",
+      "11534016364"
     ],
-    "example_quote": "they are recycling horoscope. It started with me feel like deja vu",
+    "example_quote": "Little did I know after checking my credit card statement that this app charged me three times for $19 every two weeks for the month of November and December.",
     "hallucinated_citations_dropped": 0
   },
   {
-    "term": "only male and female gender options",
+    "term": "in-app purchases expensive",
+    "count": 5,
+    "share_of_corpus": 5.0,
+    "example_review_ids": [
+      "11309860342",
+      "11531987668",
+      "14145228754",
+      "12439445085",
+      "11422847227"
+    ],
+    "example_quote": "The price was way too high for just those things and having to pay for the credits on top of the monthly fee.",
+    "hallucinated_citations_dropped": 0
+  },
+  {
+    "term": "recurring subscription charges",
     "count": 4,
     "share_of_corpus": 4.0,
     "example_review_ids": [
-      "6732871614",
-      "6941619915",
-      "6118608677",
-      "6468487974"
+      "10745745062",
+      "12895500790",
+      "11863243929",
+      "10554353137"
     ],
-    "example_quote": "my only issue is the gender selection it is only male and female.",
+    "example_quote": "I'm still being charged $45. Nobody was willing to reach back out to me.",
     "hallucinated_citations_dropped": 0
   },
   {
-    "term": "app is glitchy and buggy",
+    "term": "psychics unresponsive",
+    "count": 4,
+    "share_of_corpus": 4.0,
+    "example_review_ids": [
+      "14288569623",
+      "12418894798",
+      "13224639951",
+      "11647367428"
+    ],
+    "example_quote": "I tried chatting with a psychic with no avail. I tried with 4 different ones and didn't receive a response from any of them.",
+    "hallucinated_citations_dropped": 0
+  },
+  {
+    "term": "app glitchy or buggy",
     "count": 4,
     "share_of_corpus": 4.0,
     "example_review_ids": [
       "7547129421",
       "14288569623",
-      "13224639951",
-      "10670208225"
+      "10670208225",
+      "12481846751"
     ],
-    "example_quote": "This app is horribly glitchy I waited for 10 minutes \"in line\" to chat with a psychic",
+    "example_quote": "I have had it for 3 weeks now and have had some of the same recurring issues. I never know when the app will connect.",
+    "hallucinated_citations_dropped": 0
+  },
+  {
+    "term": "gender selection not inclusive",
+    "count": 3,
+    "share_of_corpus": 3.0,
+    "example_review_ids": [
+      "6732871614",
+      "6941619915",
+      "6118608677"
+    ],
+    "example_quote": "It's only male and female. There are far more genders than two and if you disagree go ask a scientist.",
+    "hallucinated_citations_dropped": 0
+  },
+  {
+    "term": "horoscopes outdated or repetitive",
+    "count": 3,
+    "share_of_corpus": 3.0,
+    "example_review_ids": [
+      "8618841231",
+      "11455320841",
+      "4761806406"
+    ],
+    "example_quote": "I have noticed in the last month that they are recycling horoscope.",
+    "hallucinated_citations_dropped": 0
+  },
+  {
+    "term": "can't cancel subscription",
+    "count": 3,
+    "share_of_corpus": 3.0,
+    "example_review_ids": [
+      "14147885035",
+      "13372038470",
+      "14202123733"
+    ],
+    "example_quote": "Trying to contact to cancel, send messages and nothing monthly fighting refund and was told to contact this company but never able to.",
+    "hallucinated_citations_dropped": 0
+  },
+  {
+    "term": "birth chart locked behind paywall",
+    "count": 3,
+    "share_of_corpus": 3.0,
+    "example_review_ids": [
+      "11951237158",
+      "12430189347",
+      "14217246329"
+    ],
+    "example_quote": "You can't even see your birth chart without paying . quite greedy what they've done with it.",
     "hallucinated_citations_dropped": 0
   }
 ]

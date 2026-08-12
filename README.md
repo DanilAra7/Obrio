@@ -5,7 +5,7 @@ analysis and turns the negative feedback into concrete, actionable recommendatio
 
 Built with **FastAPI + httpx**. Two-tier design: a **deterministic offline path**
 (VADER + regex, zero dependencies, zero cost) that always works, and an **optional
-LLM upgrade** (Gemini) that measurably beats it — see [Approach](#approach--design-decisions)
+LLM upgrade** (Mistral) that measurably beats it — see [Approach](#approach--design-decisions)
 for the actual numbers, not just a claim.
 
 ---
@@ -30,18 +30,25 @@ Then open <http://127.0.0.1:8000/apps/1459969523/report> for the visual report.
 
 ### Optional: enable the LLM upgrade
 
-Without any setup, sentiment runs on VADER and themes on a 9-pattern regex list —
-fully functional, no API key, no cost. To upgrade both to Gemini:
+Without any setup, sentiment runs on VADER, keywords on log-odds statistics, and themes on
+a 9-pattern regex list — fully functional, no API key, no cost. To upgrade all three to
+Mistral:
 
 ```bash
-echo 'GEMINI_API_KEY=your_key' > .env   # get one at aistudio.google.com/apikey
+echo 'MISTRAL_API_KEY=your_key' > .env   # get one at console.mistral.ai (La Plateforme → API Keys)
 ```
 
-That's it — `enrich_sentiment_llm()` and the theme pipeline pick it up automatically on
-the next collection. No key → silent no-op, falls back to the deterministic path. A failed
-call (quota, network) also falls back — this was verified against a real 429 during
-development, not just mocked (see `themes_source`/`sentiment_source` in the API response,
-which report which path actually ran).
+That's it — `enrich_sentiment_llm()`, `keywords.llm_keywords()` and the theme pipeline pick it
+up automatically on the next collection. No key → silent no-op, falls back to the
+deterministic path. A failed call (quota, network) also falls back — this was verified against
+real API failures during development, not just mocked (see `themes_source`/`keywords_source`/
+`sentiment_source` in the API response, which report which path actually ran for each).
+
+Mistral over other providers specifically for its free tier: 1 request/second, 500K
+tokens/minute, 1B tokens/month — comfortably enough to run a full 100-review collection
+(sentiment + themes + keywords, ~20-30 calls total) without hitting a rate limit mid-run. An
+earlier version of this project used Gemini, whose free tier repeatedly cut a run short partway
+through (see git history) before the switch.
 
 ### Without a server (the collection script)
 
@@ -72,7 +79,7 @@ docker build -t review-api . && docker run -p 8000:8000 review-api
 ```
 
 The same image runs unchanged on Cloud Run / Render / Heroku / Railway (`$PORT` honoured). Pass
-`GEMINI_API_KEY` as an env var to the container to enable the LLM path there too.
+`MISTRAL_API_KEY` as an env var to the container to enable the LLM path there too.
 
 ### Deploying to Railway
 
@@ -82,7 +89,7 @@ config is needed beyond connecting the repo:
 1. Push this repo to GitHub (see below).
 2. On [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub repo** → pick
    this repo. Railway detects `railway.json`/`Dockerfile` automatically and builds it.
-3. Optional: in the service's **Variables** tab, add `GEMINI_API_KEY` to enable the LLM path.
+3. Optional: in the service's **Variables** tab, add `MISTRAL_API_KEY` to enable the LLM path.
 4. Railway assigns a public URL automatically (**Settings → Networking → Generate Domain**).
    `/docs` on that URL is the same Swagger UI as local.
 
@@ -107,8 +114,9 @@ Every `GET` endpoint accepts `country` (storefront, default `us`), `limit` and `
 If an app has not been collected yet, the endpoint collects it on demand — a reviewer can hit
 `/apps/1459969523/report` as a first request and get a full result.
 
-The `/insights` response includes `sentiment_source` ("gemini" or "vader") and `themes_source`
-("llm" or "regex") so it's always visible which path actually produced a given result.
+The `/insights` response includes `sentiment_source` ("mistral" or "vader"), `keywords_source`
+("llm" or "statistical") and `themes_source` ("llm" or "regex") so it's always visible which
+path actually produced a given result.
 
 Error handling: unknown app → `404`, invalid input → `422` (Pydantic), App Store unreachable
 or malformed → `502`. Partial page failures during collection are tolerated: whatever pages
@@ -155,12 +163,14 @@ thresholds instead of hand-picking them:
 | --- | --- | --- | --- |
 | VADER+rating, hand-picked constants (w=0.6, ±0.15) | 0.434 | 0.864 | 0.448 |
 | Same, calibrated by grid search (5-fold CV, out-of-sample) | 0.317 | 0.889 | 0.704 |
-| **Gemini, zero calibration** | **0.120** | **0.969** | 0.660 |
+| **Mistral, zero calibration** | **0.174** | **0.945** | **0.657** |
 
-**Optional upgrade: Gemini** (`enrich_sentiment_llm`), blind to the star rating (shown only
-the text, exactly like the human labelers), scored on a -1..1 anchored rubric. 3.6× lower MAE
-than the calibrated baseline. Falls back silently to the VADER score per-batch on any API
-failure — verified against a real 429 quota error during development, not just a mocked test.
+**Optional upgrade: Mistral** (`enrich_sentiment_llm`), blind to the star rating (shown only
+the text, exactly like the human labelers), scored on a -1..1 anchored rubric. 1.8× lower MAE
+than the calibrated baseline, and macro-F1 essentially matches the fully-tuned VADER blend
+without any threshold-fitting of its own. Falls back silently to the VADER score per-batch on
+any API failure — verified against real API failures during development, not just a mocked
+test.
 
 **`has_complaint`: a second, independent signal** — does this review contain *any*
 dissatisfaction, even a minor one inside net-positive praise? This exists because a
@@ -171,7 +181,7 @@ keyword/theme pipeline. Measured on the same 150 reviews:
 | | precision | recall | missed |
 | --- | --- | --- | --- |
 | Proxy: "VADER scored it net-negative" | 1.00 | 0.366 | 64 of 101 |
-| **Gemini, dedicated field** | 0.953 | **1.00** | **0** of 101 |
+| **Mistral, dedicated field** | 0.98 | **0.99** | **1** of 101 |
 
 The proxy missed **64 of 101** reviews that actually contained a complaint. This is the
 concrete reason `has_complaint` exists as its own signal rather than being inferred from the
@@ -206,40 +216,50 @@ never needs a key to produce a complete report.
 
 **Optional upgrade — embeddings + clustering** (`app/themes.py`, `app/cluster.py`,
 `app/embeddings.py`):
-1. **Embed & cluster strictly**: embed every review in the complaint corpus
-   (`gemini-embedding-001`), then cluster with complete-linkage — a cluster's similarity to
-   another is the *worst* pairwise match, not the average, so one stray review can't drag two
-   different complaints into one blob. Deliberately over-segments into many small, pure
-   clusters; the threshold was calibrated against Nebula's actual similarity distribution, not
-   guessed (median pairwise similarity 0.67, threshold set to 0.68).
+1. **Embed & cluster strictly**: embed every review in the complaint corpus (`mistral-embed`),
+   then cluster with complete-linkage — a cluster's similarity to another is the *worst*
+   pairwise match, not the average, so one stray review can't drag two different complaints
+   into one blob. Deliberately over-segments into many small, pure clusters; the threshold was
+   calibrated against Nebula's actual similarity distribution, not guessed (median pairwise
+   similarity 0.81 on `mistral-embed`, threshold set to 0.81 — recalibrate if the embedding
+   model ever changes, this number is specific to it, not portable).
 2. **LLM-judged merge**: for cluster pairs that are close but not close enough to have
-   auto-merged, ask the LLM one narrow question — "are these the same complaint?" — and
-   union-merge on yes. A far easier, more auditable question than "invent categories from
-   nothing."
+   auto-merged, ask the LLM one narrow question — "do these describe the same *specific*
+   complaint mechanism, not just the same broad category?" — and union-merge on yes. A far
+   easier, more auditable question than "invent categories from nothing."
 3. **Name + recommend**: each surviving cluster gets a name, description, and ONE
    recommendation, **required to cite 2-4 specific review ids**. Citations are checked
    programmatically against real cluster membership — a hallucinated id is dropped and the
    theme is flagged `citations_valid: false`, so a fabricated citation can't ship unnoticed.
 
 This replaced an earlier one-shot version (read a *sample* of ≤60 reviews, ask the LLM to
-invent 5-9 themes from it in one pass) after a head-to-head run on Nebula's real 101-review
-complaint corpus: the one-shot version only ever saw a sample, so 7 of 101 reviews matched no
-theme at all — nothing had generated a category their specific complaint fit, and two of its
-8 themes ("Non-Inclusive Identity Options" — gender-option complaints, and "Predatory
-Per-Minute Psychic Billing" — this app's specific monetization model) had no equivalent in the
-regex list at all, the concrete case for an LLM path over a fixed checklist in the first place.
-The clustering version processes every review before any LLM judgment happens, so a
-rare-but-real complaint pattern still gets its own cluster instead of being sampled out: same
-corpus, **96-99 of 101 reviews covered** across repeated live runs (vs 94/101 one-shot), 8-9
-named themes, 0 hallucinated citations every time. (The range, not a single fixed number, is
-itself worth noting: clustering and embedding are deterministic, but the LLM merge-judgment
-step has some run-to-run variance even at temperature 0 — one run merges two adjacent billing
-clusters the next run keeps separate. Both outcomes are defensible; neither is wrong.) One run
-caught something the one-shot pass didn't split out on its own: three separate clusters of
-billing complaints at different emotional registers ("SCAM!!!" panic vs. matter-of-fact
-"charged for a year" vs. calm "the palmistry reading is a scam") that the merge step correctly
-recognized as one theme. See `eval/data/themes_1459969523.json` (one-shot) vs
-`eval/data/clusters_1459969523.json` (clustering, latest run) for the raw comparison data, and
+invent 5-9 themes from it in one pass): the one-shot version only ever saw a sample, so on
+Nebula's real 101-review complaint corpus 7 reviews matched no theme at all, and two of its 8
+themes ("Non-Inclusive Identity Options" — gender-option complaints, and "Predatory Per-Minute
+Psychic Billing" — this app's specific monetization model) had no equivalent in the regex list
+at all — the concrete case for an LLM path over a fixed checklist in the first place. The
+clustering version processes every review before any LLM judgment happens, so a rare-but-real
+pattern still gets its own cluster instead of being sampled out.
+
+**A live run also caught a real bug in the clustering approach itself**, worth documenting
+because the fix is a structural property of the design, not a one-off patch: on the same 101
+reviews, one run collapsed almost everything into a single "Billing and subscription fraud"
+theme covering 90 of 101 reviews. The cause was measured, not guessed — the candidate band for
+"should the LLM consider merging these two clusters" was wide enough that 160 of 231 possible
+cluster pairs qualified, and union-find's transitivity means even a modest false-positive rate
+on individual "same theme?" judgments chains: if A merges with B and B merges with C, A and C
+end up together even though no one ever judged A and C directly. Two fixes, both now permanent:
+a narrower, empirically-set candidate band (0.77-0.81 instead of 0.70-0.81), and — more
+importantly — `MAX_THEME_SHARE`, a hard cap (35% of the complaint corpus) enforced in code that
+refuses a merge outright if it would exceed it, regardless of what the LLM says. It's a
+math-level circuit breaker on top of the model's judgment, not a prompt-tuning hope. Covered by
+a regression test (`tests/test_themes.py`) that mocks the LLM to say "yes, merge" to *every*
+pair — the worst case — and asserts the cap still holds.
+
+Re-run after the fix, same corpus: **10 distinct themes, 94 of 101 reviews covered**, largest
+theme 26.7% of the corpus (well under the 35% cap), **0 hallucinated citations**. See
+`eval/data/themes_1459969523.json` (retired one-shot version, kept for the comparison) vs
+`eval/data/clusters_1459969523.json` (current clustering pipeline) for the raw data, and
 `eval/run_cluster_eval.py` to reproduce it live against the production pipeline.
 
 ### Keywords — LLM phrase extraction (`app/keywords.py`)
@@ -254,11 +274,10 @@ not reported on trust). `keywords_source` in the API response ("llm" or "statist
 which one actually produced a given result — same transparency contract as `sentiment_source`
 and `themes_source`.
 
-Run live against Nebula's real complaint corpus: 10 phrases, **0 hallucinated citations**, and
-readable where the statistical output isn't — "everything is locked behind paywall" / "unexpected
-recurring subscription charges" / "psychic chat is too expensive" vs. the same corpus's top
-statistical terms "charg" / "subscription" / "psychic". Reproducible with
-`eval/run_llm_keywords_eval.py`.
+Run live against Nebula's real complaint corpus: 15 phrases, **0 hallucinated citations**, and
+readable where the statistical output isn't — "charged without permission" / "unexpected
+charges after trial" / "gender selection not inclusive" vs. the same corpus's top statistical
+terms "charg" / "subscription" / "cancel". Reproducible with `eval/run_llm_keywords_eval.py`.
 
 ### Storage & serving
 
@@ -272,7 +291,7 @@ bar for sentiment, quoted evidence per theme. No chart library, no CDN, works of
 ### Known limitations
 
 * 500 reviews per storefront is Apple's ceiling; wider coverage means iterating over countries.
-* VADER and the regex theme list are English-only. Gemini handles other languages, but this
+* VADER and the regex theme list are English-only. Mistral handles other languages, but this
   wasn't specifically evaluated.
 * The in-memory cache is per-process; behind multiple workers, collections aren't shared.
 * The 150-review gold set was labeled once (by the author, with a partial second-pass audit),
@@ -280,60 +299,62 @@ bar for sentiment, quoted evidence per theme. No chart library, no CDN, works of
   not lab-grade certified.
 * At ~100 reviews per app, individual keyword z-scores don't clear conventional significance —
   see above. More data (the full ~500-review pool, or aggregating across apps) would sharpen this.
-* The theme pipeline's embeddings call draws on a separate Gemini quota from the sentiment/theme
-  generation calls (`gemini-embedding-001` vs `gemini-flash-latest`) — confirmed live during
-  development when one ran out while the other still worked. Both fail the same way either way
-  (`llm.LLMError` → regex/statistical fallback), so this only matters for capacity planning.
+* The theme pipeline's `MAX_THEME_SHARE`/candidate-band constants in `app/themes.py` are
+  calibrated against `mistral-embed`'s specific similarity distribution (see above) — swapping
+  the embedding model without recalibrating risks the same mega-cluster failure mode that
+  motivated adding the cap in the first place.
 
 ---
 
 ## Sample report
 
 [`sample_report.md`](sample_report.md) / [`sample_report.html`](sample_report.html) — Nebula:
-Spiritual Guidance (`1459969523`), 100 random US reviews, `--seed 42`, generated on the
-deterministic path (no active Gemini quota at generation time — this is itself a demonstration
-of the fallback: the run completed cleanly and printed the exact reason it fell back, rather
-than failing). For the LLM path's actual output on this app's full complaint corpus, see
-[`eval/data/themes_1459969523.json`](eval/data/themes_1459969523.json) (8 discovered themes,
-0 hallucinated citations) and the numbers quoted under **Approach** above, both produced by
-live Gemini calls during development.
+Spiritual Guidance (`1459969523`), 100 random US reviews, `--seed 42`, generated fully on the
+**LLM path** (`sentiment_source: mistral` for all 100 reviews, `keywords_source: llm`,
+`themes_source: llm`) — every upgrade succeeded, no fallback anywhere in this run, reproducible
+with `python -m app.cli 1459969523 --limit 100 --seed 42 --out sample_report`.
 
-Headline: average **4.45/5**, 87% positive / 4% neutral / 9% negative — but 13 of 100 reviews
-carry `has_complaint=true` once mixed reviews are counted. Every theme found is commercial
-rather than technical (billing, paywall/pricing) — zero crash or performance complaints in
-this sample. The actionable read is unchanged from the regex baseline to the LLM version: the
-product works, the monetization flow is what generates 1-star reviews and mixed complaints.
+Headline: average **4.56/5**, 86% positive / 4% neutral / 10% negative — but 23 of 100 reviews
+carry `has_complaint=true` once mixed reviews are counted (net-positive reviews with a real
+gripe inside them). Keyword extraction surfaced readable phrases like "charged after free
+trial" straight from the complaint corpus. The actionable read: the product works, the
+monetization flow (trials converting to charges, paywalled features) is what generates 1-star
+reviews and mixed complaints, not crashes or performance.
 
 ## Project layout
 
 ```
 app/                production API — no eval/ imports, self-contained
   itunes.py          App Store client + pure feed parsing
-  analysis.py         cleaning, metrics, sentiment (VADER + optional LLM), log-odds keywords, regex themes
-  keywords.py          LLM phrase extraction (GEMINI_API_KEY upgrade over analysis.negative_keywords)
+  analysis.py         cleaning, metrics, sentiment (VADER + optional LLM), log-odds keywords, regex
+                       themes, and apply_llm_upgrades() — the shared keywords+themes upgrade
+                       orchestration used by both main.py and cli.py so they can't silently drift
+  keywords.py          LLM phrase extraction (MISTRAL_API_KEY upgrade over analysis.negative_keywords)
   themes.py             LLM theme pipeline: embeddings + strict clustering + LLM-merge + naming
-  embeddings.py           Gemini embeddings client (pure-Python cosine similarity, no numpy)
+  embeddings.py           Mistral embeddings client (pure-Python cosine similarity, no numpy)
   cluster.py               strict complete-linkage clustering — pure algorithm, no network, no API key needed
-  llm.py                    shared Gemini client (retrying, structured JSON output)
+  llm.py                    shared Mistral client (retrying, structured JSON output)
   report.py                HTML / Markdown rendering, renders both statistical and LLM result shapes
   store.py                 in-memory cache of collected batches
-  main.py                  FastAPI endpoints, orchestrates the LLM-vs-fallback swap for each of the three
+  main.py                  FastAPI endpoints
   cli.py                    standalone collection script
   env.py                    tiny .env loader (no python-dotenv dependency)
-tests/               72 unit + API + LLM-fallback tests, no network (see conftest.py)
+tests/               74 unit + API + LLM-fallback tests, no network (see conftest.py)
 eval/                research tooling that produced the numbers above — not part of the API,
                      app/ never imports from here
   sample.py            stratified sampling for the gold-label pool
   label_app.py          local web UI for hand-labeling sentiment (-1..1) + has_complaint
   metrics.py             eval harness: MAE, Spearman, macro-F1, complaint recall
   calibrate.py            grid-search + cross-validation for the VADER blend/thresholds
-  llm_sentiment.py         standalone Gemini sentiment scorer (adds confidence/reason fields
-                            for eyeballing model reasoning — analysis.enrich_sentiment_llm
-                            doesn't need those in production)
+  llm_sentiment.py         standalone Mistral sentiment scorer, built on app.llm.call() (adds
+                            confidence/reason fields for eyeballing model reasoning — production's
+                            enrich_sentiment_llm doesn't need those — plus a disk cache so repeated
+                            eval runs don't re-spend quota on unchanged reviews)
   run_baseline.py           validates the VADER fallback against the hand-labeled gold set
   run_llm_eval.py            validates app.analysis.enrich_sentiment_llm live (MAE, has_complaint recall)
   run_llm_keywords_eval.py    validates app.keywords.llm_keywords live vs the statistical method
   run_cluster_eval.py          validates app.themes.llm_theme_analysis live against real data
-  data/                        pool.json / labels.json / themes_*.json / clusters_*.json — the
-                                 actual artifacts backing every number quoted above (small, committed)
+  run_keyword_stability.py      bootstrap stability check for the statistical keyword method
+  data/                          pool.json / labels.json / themes_*.json / clusters_*.json — the
+                                   actual artifacts backing every number quoted above (small, committed)
 ```

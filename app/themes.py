@@ -1,4 +1,4 @@
-"""LLM theme discovery — the GEMINI_API_KEY-enabled upgrade over
+"""LLM theme discovery — the MISTRAL_API_KEY-enabled upgrade over
 analysis.py's hardcoded 9-regex theme_analysis().
 
 Pipeline: embed every review -> cluster STRICTLY -> LLM-judge whether close
@@ -44,15 +44,28 @@ from . import llm
 from .cluster import cluster_pair_similarity, cluster_reviews, similarity_matrix
 from .embeddings import cosine, embed_reviews
 
-CLUSTER_THRESHOLD = 0.68     # complete-linkage merge bar — calibrated live against Nebula's real
-                             # similarity distribution (median pairwise sim was 0.67, so anything
-                             # near that is "not obviously related"; see eval/run_cluster_eval.py)
-CANDIDATE_LOW = 0.55         # below this, two clusters are almost certainly unrelated — not worth
-                             # spending an LLM call to confirm the obvious
+CLUSTER_THRESHOLD = 0.81     # complete-linkage merge bar — calibrated live against Nebula's real
+                             # mistral-embed similarity distribution (median pairwise sim was 0.81,
+                             # so anything near that is "not obviously related"; see
+                             # eval/run_cluster_eval.py). Re-calibrate if the embedding model changes —
+                             # this number is specific to mistral-embed's similarity range, not portable.
+CANDIDATE_LOW = 0.77         # below this, two clusters are almost certainly unrelated — not worth
+                             # spending an LLM call to confirm the obvious. Narrower band than a
+                             # first pass used (0.70): at 0.70 nearly 70% of all cluster pairs
+                             # qualified as "candidates" on mistral-embed's similarity distribution
+                             # (denser/less discriminative than gemini-embedding-001's was), and
+                             # with that many pairs even a modest false-positive rate on individual
+                             # merge judgments chained transitively through union-find into one
+                             # 90-review mega-cluster on a live run. See MAX_THEME_SHARE below for
+                             # the second, structural safeguard against the same failure mode.
 MERGE_BATCH_SIZE = 10        # candidate pairs per LLM call
 SAMPLE_PER_GROUP_MERGE = 4   # reviews shown per side when judging a merge
 SAMPLE_PER_GROUP_NAME = 10   # reviews shown per cluster when naming/recommending
 MIN_THEME_SIZE = 2           # clusters smaller than this aren't worth naming ("fix what?" for n=1)
+MAX_THEME_SHARE = 0.35       # a merge that would push one theme past this share of the whole
+                             # complaint corpus is refused outright — a math-level circuit breaker
+                             # so an overly agreeable LLM merge judgment can't cascade into one
+                             # blob theme no matter how many individual "same theme" calls it makes
 
 
 # --------------------------------------------------------------------------- #
@@ -95,11 +108,16 @@ async def discover_clusters(reviews: List[Dict], threshold: float = CLUSTER_THRE
 # stage 2: LLM merge judgment
 # --------------------------------------------------------------------------- #
 MERGE_SYSTEM = """You are given pairs of App Store review groups. Each group was formed by
-semantic similarity, not by you. For each pair, decide whether the two groups represent the
-SAME underlying complaint/theme (should be merged into one) or genuinely DIFFERENT complaints
-(should stay separate). Judge by what the reviews are actually unhappy about, not surface
-wording — e.g. two groups both about unexpected billing charges are the same theme even if one
-says "scam" and the other says "charged twice"."""
+semantic similarity, not by you. For each pair, decide whether the two groups describe the SAME
+SPECIFIC complaint mechanism (should be merged) or merely the same broad category (should stay
+separate). Judge the mechanism, not the topic label: "charged again right after cancelling" and
+"billed for a lifetime plan after a $1 trial" are both nominally "billing," but are DIFFERENT
+mechanisms and must stay separate. Only merge when a reader would describe both groups with the
+same one-sentence complaint, e.g. two groups both specifically about being charged again despite
+already cancelling, regardless of tone (one panicked "SCAM!!!", one matter-of-fact). When in
+doubt, keep them separate — false negatives here just mean two adjacent themes in the report
+instead of one; false positives blur distinct problems together and lose the specific one an
+engineer would need to act on."""
 
 MERGE_SCHEMA = {
     "type": "object",
@@ -154,7 +172,15 @@ class _UnionFind:
 async def merge_clusters(clusters: List[List[Dict]], matrix: List[List[float]], ids: List[str]
                          ) -> List[List[Dict]]:
     """Judges every candidate pair, then union-merges the ones the LLM calls
-    "same theme". If the LLM is unavailable, returns the clusters unmerged
+    "same theme" — except a union that would push one group past
+    MAX_THEME_SHARE of the whole corpus is refused regardless of what the
+    LLM said. This is a deliberate, math-level check on top of the model's
+    judgment, not just a fallback for when the LLM is unavailable: a live
+    run surfaced exactly the failure it guards against — a merge-happy LLM
+    response chained transitively through union-find (A merges with B, B
+    with C, so A and C end up together even though no one judged A and C
+    directly) into a single cluster covering 90 of 101 reviews. If the LLM
+    is unavailable outright, this function returns the clusters unmerged
     (over-segmented) rather than failing — an extra, slightly redundant
     theme in the output is a far cheaper failure than crashing the endpoint.
     """
@@ -162,7 +188,11 @@ async def merge_clusters(clusters: List[List[Dict]], matrix: List[List[float]], 
     if not pairs:
         return clusters
 
+    corpus_size = sum(len(c) for c in clusters)
+    max_size = max(1, int(MAX_THEME_SHARE * corpus_size))
     uf = _UnionFind(len(clusters))
+    sizes = [len(c) for c in clusters]  # sizes[root] is only meaningful once root == uf.find(root)
+
     async with httpx.AsyncClient() as client:
         for batch_start in range(0, len(pairs), MERGE_BATCH_SIZE):
             batch = pairs[batch_start:batch_start + MERGE_BATCH_SIZE]
@@ -181,8 +211,15 @@ async def merge_clusters(clusters: List[List[Dict]], matrix: List[List[float]], 
                 continue  # leave this batch's pairs unmerged rather than fail the whole pipeline
             decisions = {d["pair_id"]: d["same_theme"] for d in response.get("decisions", [])}
             for k, (i, j, sim) in enumerate(batch):
-                if decisions.get(str(k)):
-                    uf.union(i, j)
+                if not decisions.get(str(k)):
+                    continue
+                ra, rb = uf.find(i), uf.find(j)
+                if ra == rb:
+                    continue
+                if sizes[ra] + sizes[rb] > max_size:
+                    continue  # refuse: would blow past MAX_THEME_SHARE regardless of the LLM's call
+                uf.union(ra, rb)
+                sizes[uf.find(ra)] = sizes[ra] + sizes[rb]
 
     groups: Dict[int, List[Dict]] = {}
     for i, cluster in enumerate(clusters):
