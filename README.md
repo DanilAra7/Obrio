@@ -230,14 +230,17 @@ Per-Minute Psychic Billing" — this app's specific monetization model) had no e
 regex list at all, the concrete case for an LLM path over a fixed checklist in the first place.
 The clustering version processes every review before any LLM judgment happens, so a
 rare-but-real complaint pattern still gets its own cluster instead of being sampled out: same
-corpus, **99 of 101 reviews covered** (vs 94/101 one-shot), 21 raw clusters → 11 after merge →
-9 named themes, 0 hallucinated citations. It also caught something the one-shot pass didn't
-split out on its own: three separate clusters of billing complaints at different emotional
-registers ("SCAM!!!" panic vs. matter-of-fact "charged for a year" vs. calm "the palmistry
-reading is a scam") that the merge step correctly recognized as one theme. See
-`eval/data/themes_1459969523.json` (one-shot) vs `eval/data/clusters_1459969523.json`
-(clustering) for the raw comparison data, and `eval/run_cluster_eval.py` to reproduce it
-live against the production pipeline.
+corpus, **96-99 of 101 reviews covered** across repeated live runs (vs 94/101 one-shot), 8-9
+named themes, 0 hallucinated citations every time. (The range, not a single fixed number, is
+itself worth noting: clustering and embedding are deterministic, but the LLM merge-judgment
+step has some run-to-run variance even at temperature 0 — one run merges two adjacent billing
+clusters the next run keeps separate. Both outcomes are defensible; neither is wrong.) One run
+caught something the one-shot pass didn't split out on its own: three separate clusters of
+billing complaints at different emotional registers ("SCAM!!!" panic vs. matter-of-fact
+"charged for a year" vs. calm "the palmistry reading is a scam") that the merge step correctly
+recognized as one theme. See `eval/data/themes_1459969523.json` (one-shot) vs
+`eval/data/clusters_1459969523.json` (clustering, latest run) for the raw comparison data, and
+`eval/run_cluster_eval.py` to reproduce it live against the production pipeline.
 
 ### Keywords — LLM phrase extraction (`app/keywords.py`)
 
@@ -250,6 +253,12 @@ citation discipline as the theme pipeline (a phrase with zero verifiable citatio
 not reported on trust). `keywords_source` in the API response ("llm" or "statistical") says
 which one actually produced a given result — same transparency contract as `sentiment_source`
 and `themes_source`.
+
+Run live against Nebula's real complaint corpus: 10 phrases, **0 hallucinated citations**, and
+readable where the statistical output isn't — "everything is locked behind paywall" / "unexpected
+recurring subscription charges" / "psychic chat is too expensive" vs. the same corpus's top
+statistical terms "charg" / "subscription" / "psychic". Reproducible with
+`eval/run_llm_keywords_eval.py`.
 
 ### Storage & serving
 

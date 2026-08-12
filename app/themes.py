@@ -232,6 +232,10 @@ async def name_and_recommend(clusters: List[List[Dict]], min_size: int = MIN_THE
     named_targets = [(str(i), c) for i, c in enumerate(clusters) if len(c) >= min_size]
     if not named_targets:
         return []
+    # Denominator for share_of_negative is the WHOLE complaint corpus (every
+    # cluster, including singletons too small to name) — matching the regex
+    # fallback's theme_analysis(), so the two are comparable percentages.
+    corpus_size = sum(len(c) for c in clusters)
 
     payload = {
         cid: [{"id": r["id"], "title": r.get("title", ""), "text": r.get("text", "")}
@@ -261,6 +265,7 @@ async def name_and_recommend(clusters: List[List[Dict]], min_size: int = MIN_THE
             "theme": t["name"],
             "description": t["description"],
             "negative_reviews": len(revs),
+            "share_of_negative": round(100 * len(revs) / corpus_size, 2) if corpus_size else 0.0,
             "avg_rating": round(sum(r["rating"] for r in revs) / len(revs), 2) if revs else 0.0,
             "recommendation": t["recommendation"],
             "sample_quotes": [q[:280] for q in quotes],

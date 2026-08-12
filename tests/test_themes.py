@@ -7,12 +7,14 @@ of fake-mocking it, the pure logic around it is unit-tested and the LLM
 calls themselves are smoke-tested live (same pattern as the rest of the
 project's LLM integration)."""
 
+import asyncio
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.themes import _candidate_pairs, _UnionFind, verify_citations
+from app import themes
+from app.themes import _candidate_pairs, _UnionFind, name_and_recommend, verify_citations
 
 
 # --------------------------------------------------------------------------- #
@@ -106,3 +108,36 @@ def test_candidate_pairs_empty_when_nothing_in_band():
     ids = ["a", "b"]
     matrix = [[1.0, 0.2], [0.2, 1.0]]
     assert _candidate_pairs(clusters, matrix, ids, low=0.55, high=0.68) == []
+
+
+# --------------------------------------------------------------------------- #
+# name_and_recommend()'s output shape — the real function, network mocked
+# --------------------------------------------------------------------------- #
+def test_name_and_recommend_output_has_every_field_downstream_needs(monkeypatch):
+    """Regression test: name_and_recommend() previously omitted
+    share_of_negative, which both analysis.actions_and_summary() and
+    report.py read directly (t["share_of_negative"]) — a KeyError that
+    reached a live end-to-end run (main.py -> real Gemini call) undetected,
+    because every other test mocked llm_theme_analysis()/llm.call() at a
+    level that let a hand-written "expected" shape stand in for the real
+    one. This test calls the actual name_and_recommend(), mocking only the
+    network boundary (llm.call), so a future dropped field fails here
+    instead of at request time."""
+    clusters = [
+        [{"id": "1", "title": "Scam", "text": "charged twice", "rating": 1},
+         {"id": "2", "title": "Scam2", "text": "billed again", "rating": 2}],
+    ]
+
+    async def fake_call(system, payload, schema, **kwargs):
+        return {"themes": [{"cluster_id": "0", "name": "Billing", "description": "...",
+                            "recommendation": "Fix billing.", "cited_review_ids": ["1", "2"]}]}
+
+    monkeypatch.setattr(themes.llm, "call", fake_call)
+    result = asyncio.run(name_and_recommend(clusters))
+
+    required = {"theme", "description", "negative_reviews", "share_of_negative", "avg_rating",
+               "recommendation", "sample_quotes", "cited_review_ids", "citations_valid"}
+    assert required.issubset(result[0].keys())
+    assert result[0]["share_of_negative"] == 100.0
+    assert result[0]["negative_reviews"] == 2
+    assert result[0]["avg_rating"] == 1.5
